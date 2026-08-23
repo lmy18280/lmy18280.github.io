@@ -383,42 +383,42 @@
                         </div>
                         <h3 class="text-xl font-semibold">Music</h3>
                     </div>
-                    <!-- 共享播放器控制器 -->
-                    <div class="mb-4 p-4 bg-white rounded-lg shadow-sm">
-                        <audio id="musicPlayer" controls controlsList="nodownload" class="w-full">
-                            <source src="" type="audio/mpeg">
-                            浏览器不支持音频播放。
-                        </audio>
-                    </div>
-                    
                     <ul class="space-y-3">
                         <li class="flex items-start">
                             <span class="text-purple-500 mr-2">•</span>
-                            <a href="javascript:void(0)" onclick="playMusic('\\music\\cruelsummer.mp3')" class="text-purple-600 hover:text-purple-800 hover:underline flex items-center cursor-pointer">
-                                <strong>《Cruel Summer》</strong> - Taylor Swift
-                                <i class="fa fa-play-circle ml-2 text-sm"></i>
-                            </a>
+                            <iframe
+                                frameborder="no"
+                                border="0"
+                                marginwidth="0"
+                                marginheight="0"
+                                width="330"
+                                height="86"
+                                src="https://music.163.com/outchain/player?type=2&id=3378698307&auto=1&height=66">
+                            </iframe>
                         </li>
                         <li class="flex items-start">
                             <span class="text-purple-500 mr-2">•</span>
-                            <a href="javascript:void(0)" onclick="playMusic('\\music\\cam.mp3')" class="text-purple-600 hover:text-purple-800 hover:underline flex items-center cursor-pointer">
-                                <strong>《Come Around Me》</strong> - Justin Bieber
-                                <i class="fa fa-play-circle ml-2 text-sm"></i>
-                            </a>
+                            <iframe
+                                frameborder="no"
+                                border="0"
+                                marginwidth="0"
+                                marginheight="0"
+                                width="330"
+                                height="86"
+                                src="https://music.163.com/outchain/player?type=2&id=1420972635&auto=1&height=66">
+                            </iframe>
                         </li>
                         <li class="flex items-start">
                             <span class="text-purple-500 mr-2">•</span>
-                            <a href="javascript:void(0)" onclick="playMusic('\\music\\atleastu.mp3')" class="text-purple-600 hover:text-purple-800 hover:underline flex items-center cursor-pointer">
-                                <strong>《至少还有你》</strong> - 林忆莲
-                                <i class="fa fa-play-circle ml-2 text-sm"></i>
-                            </a>
-                        </li>
-                        <li class="flex items-start">
-                            <span class="text-purple-500 mr-2">•</span>
-                            <a href="javascript:void(0)" onclick="playMusic('\\music\\redb.mp3')" class="text-purple-600 hover:text-purple-800 hover:underline flex items-center cursor-pointer">
-                                <strong>《红豆》</strong> - 王菲
-                                <i class="fa fa-play-circle ml-2 text-sm"></i>
-                            </a>
+<iframe
+                                frameborder="no"
+                                border="0"
+                                marginwidth="0"
+                                marginheight="0"
+                                width="330"
+                                height="86"
+                                src="https://music.163.com/outchain/player?type=2&id=256621&auto=1&height=66">
+                            </iframe>
                         </li>
                     </ul>
                 </div>
@@ -934,11 +934,12 @@
         const BLOG_DIRECTORY = '/blogs/';
         
         // 手动配置文章列表（用于 GitHub Pages 部署）
-        // 当你添加新文章时，只需在这里添加文件名即可
+        // *******************************************当你添加新文章时，只需在这里添加文件名即可
         const BLOG_FILES = [
             'first-post.md',
             'second-post.md',
-            // 添加新文章只需取消注释下面的行并添加文件名
+            'third-post.md',
+            // *******************************************当你添加新文章时，只需取消注释下面的行并添加文件名
         ];
         
         // 获取当前页面的完整 URL 路径
