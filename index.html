@@ -731,6 +731,9 @@
 
             // 初始化平滑滚动
             initSmoothScroll();
+            
+            // 检查 hash 自动打开文章
+            checkHashAndOpenArticle();
         });
         
         // 图片预览模态框
@@ -1246,11 +1249,19 @@
                                     ${meta.tags.map(tag => `<span class="px-2 py-1 bg-purple-100 text-purple-700 rounded-full text-sm">${tag}</span>`).join('')}
                                 </div>
                             ` : ''}
+                            <div class="flex items-center gap-2 mb-4">
+                                <button onclick="copyShareLink(${JSON.stringify(meta.title)})" class="flex items-center gap-1 px-3 py-1 text-sm bg-gray-100 hover:bg-gray-200 rounded transition-colors">
+                                    <i class="fa fa-share-alt"></i> 分享链接
+                                </button>
+                            </div>
                             <div class="border-t pt-6 article-content">
                                 ${htmlContent}
                             </div>
                         </div>
                     `;
+                    
+                    // 设置 URL hash，方便分享
+                    history.replaceState(null, '', '#blog/' + filename);
                     
                     // 重新高亮代码块
                     setTimeout(() => {
@@ -1265,11 +1276,25 @@
             }
         }
         
+        // 复制分享链接
+        function copyShareLink(title) {
+            const url = window.location.origin + window.location.pathname + window.location.hash;
+            navigator.clipboard.writeText(url).then(() => {
+                showToast('链接已复制：' + (title || '') + ' ' + url);
+            }).catch(() => {
+                showToast('复制失败，请手动复制地址栏链接');
+            });
+        }
+        
         // 关闭文章模态框
         function closeArticleModal() {
             const modal = document.getElementById('article-modal');
             modal.classList.add('hidden');
             document.body.style.overflow = '';
+            // 清除 hash
+            if (window.location.hash.startsWith('#blog/')) {
+                history.replaceState(null, '', window.location.pathname + window.location.search);
+            }
         }
         
         // 初始化文章模态框
@@ -1286,6 +1311,27 @@
                     closeArticleModal();
                 }
             });
+        }
+        
+        // 检查 hash 自动打开文章
+        function checkHashAndOpenArticle() {
+            const hash = window.location.hash;
+            if (hash.startsWith('#blog/')) {
+                const filename = decodeURIComponent(hash.slice(6));
+                if (BLOG_FILES.includes(filename)) {
+                    openArticle(filename);
+                }
+            }
+        }
+        
+        // 简单的 toast 提示
+        function showToast(msg) {
+            const toast = document.createElement('div');
+            toast.textContent = msg;
+            toast.style.cssText = 'position:fixed;bottom:30px;left:50%;transform:translateX(-50%);background:rgba(0,0,0,0.8);color:#fff;padding:10px 20px;border-radius:8px;z-index:9999;font-size:14px;max-width:90%;word-break:break-all;transition:opacity 0.3s;';
+            document.body.appendChild(toast);
+            setTimeout(() => { toast.style.opacity = '0'; }, 2500);
+            setTimeout(() => { toast.remove(); }, 3000);
         }
         
         // 打开经历详情模态框（重用文章模态框）
