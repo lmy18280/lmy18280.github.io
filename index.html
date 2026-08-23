@@ -1263,6 +1263,9 @@
                     // 设置 URL hash，方便分享
                     history.replaceState(null, '', '#blog/' + filename);
                     
+                    // 更改标签页标题
+                    document.title = meta.title + ' - Craig';
+                    
                     // 重新高亮代码块
                     setTimeout(() => {
                         hljs.highlightAll();
@@ -1291,6 +1294,8 @@
             const modal = document.getElementById('article-modal');
             modal.classList.add('hidden');
             document.body.style.overflow = '';
+            // 恢复标签页标题
+            document.title = 'Craig';
             // 清除 hash
             if (window.location.hash.startsWith('#blog/')) {
                 history.replaceState(null, '', window.location.pathname + window.location.search);
