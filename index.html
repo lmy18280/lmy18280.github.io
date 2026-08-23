@@ -209,6 +209,13 @@
             border-radius: 0.5rem;
             margin: 1rem 0;
         }
+        .article-content strong {
+            font-weight: 700;
+            color: #111827;
+        }
+        .article-content em {
+            font-style: italic;
+        }
     </style>
 </head>
 <body class="bg-light text-dark">
@@ -1220,7 +1227,8 @@
                             return hljs.highlightAuto(code).value;
                         },
                         breaks: true,
-                        gfm: true
+                        gfm: true,
+                        underscores: false
                     });
                     
                     // 使用marked.js解析markdown
@@ -1309,7 +1317,8 @@
                             return hljs.highlightAuto(code).value;
                         },
                         breaks: true,
-                        gfm: true
+                        gfm: true,
+                        underscores: false
                     });
                     
                     const htmlContent = marked.parse(meta.content);
