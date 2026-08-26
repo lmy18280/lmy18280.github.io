@@ -36,7 +36,7 @@ tags: 碎碎念
 
 原来真正的主角，从来不是站在万众瞩目的舞台中央、自带光芒，而是在无人看见的日子里，接纳不完美，熬过疲惫，独自生长。
 
-![](/blogs/blogmedia/third-post/CFNetworkDownload_XeTBZg.PNG)
+![](/blogs/blogmedia/third-post/cfnetwork.jpg)
 
 许个愿吧，祝我雅思过7，祝我考研路上皆好运。
 

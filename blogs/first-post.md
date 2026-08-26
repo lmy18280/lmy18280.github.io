@@ -32,7 +32,7 @@ df.head(10)
 
 旅游已经成为了我生命中不可或缺的一部分。
 
-![旅游照片](/blogs/blogmedia/01trip01.png)
+![旅游照片](/blogs/blogmedia/01trip01.jpg)
 
 喜欢酒精，喜欢各种味道的咖啡豆（它们闻起来真的很香）。
 
