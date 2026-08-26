@@ -1203,11 +1203,11 @@
         // 2. 安装 giscus app: https://github.com/apps/giscus（授权给本仓库）
         // 3. 打开 https://giscus.app 生成配置，把 repoId / categoryId 填入下方，enabled 改为 true
         const GISCUS_CONFIG = {
-            enabled: false,
+            enabled: true,
             repo: 'lmy18280/lmy18280.github.io',
-            repoId: '',      // 例如 R_kgDOxxxxx
+            repoId: 'R_kgDOTNS4Hw',
             category: 'Announcements',
-            categoryId: ''   // 例如 DIC_kwDOxxxxx
+            categoryId: 'DIC_kwDOTNS4H84DEO--'
         };
 
         // 注入 giscus 评论脚本（未启用时什么都不显示）
@@ -1227,8 +1227,8 @@
             script.setAttribute('data-strict', '0');
             script.setAttribute('data-reactions-enabled', '1');
             script.setAttribute('data-emit-metadata', '0');
-            script.setAttribute('data-input-position', 'bottom');
-            script.setAttribute('data-theme', 'light');
+            script.setAttribute('data-input-position', 'top');
+            script.setAttribute('data-theme', 'preferred_color_scheme');
             script.setAttribute('data-lang', 'zh-CN');
             container.appendChild(script);
         }
