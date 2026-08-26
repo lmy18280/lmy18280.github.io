@@ -3,19 +3,24 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Craig 的个人主页：吉林大学车辆工程在读，吉速电动方程式车队电气组。博客记录技术、生活与碎碎念。">
+    <meta name="author" content="Craig">
+    <meta name="theme-color" content="#F8FAFC">
+    <meta property="og:title" content="Craig">
+    <meta property="og:type" content="website">
+    <meta property="og:url" content="https://lmy18280.github.io/">
+    <meta property="og:image" content="https://lmy18280.github.io/imgs/profile/profile.jpg">
+    <meta property="og:description" content="Craig 的个人主页：吉林大学车辆工程在读，吉速电动方程式车队电气组。博客记录技术、生活与碎碎念。">
+    <meta name="twitter:card" content="summary">
+    <link rel="icon" type="image/png" href="/imgs/favicon.png">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=Noto+Sans+SC:wght@400;500;700&display=swap" rel="stylesheet">
     <title>Craig</title>
     <!-- Tailwind CSS v3 -->
     <script src="https://cdn.tailwindcss.com"></script>
-    <!-- Tailwind Typography Plugin -->
-    <script>
-        tailwind.config = {
-            plugins: [
-                require('@tailwindcss/typography'),
-            ],
-        }
-    </script>
     <!-- Highlight.js for code syntax highlighting -->
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.8.0/styles/github.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.8.0/styles/github-dark.min.css">
     <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.8.0/highlight.min.js"></script>
     <script>hljs.highlightAll();</script>
     <!-- Font Awesome -->
@@ -30,16 +35,19 @@
     <!-- Tailwind 配置 -->
     <script>
         tailwind.config = {
+            plugins: [
+                require('@tailwindcss/typography'),
+            ],
             theme: {
                 extend: {
                     colors: {
-                        primary: '#3B82F6',
+                        primary: '#2563EB',
                         secondary: '#10B981',
-                        dark: '#1E293B',
+                        dark: '#0F172A',
                         light: '#F8FAFC'
                     },
                     fontFamily: {
-                        sans: ['Inter', 'system-ui', 'sans-serif'],
+                        sans: ['Inter', 'Noto Sans SC', 'system-ui', 'sans-serif'],
                     },
                     animation: {
                         'typing': 'typing 3.5s steps(40, end)',
@@ -65,18 +73,18 @@
                 text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.3);
             }
             .bg-gradient {
-                background: linear-gradient(135deg, #3B82F6 0%, #1E40AF 100%);
+                background: linear-gradient(135deg, #2563EB 0%, #4F46E5 100%);
             }
             .typing-cursor {
                 border-right: 0.15em solid;
                 animation: blink 0.75s step-end infinite;
             }
             .card-hover {
-                transition: all 0.3s ease;
+                transition: transform 0.3s ease, box-shadow 0.3s ease;
             }
             .card-hover:hover {
-                transform: translateY(-5px);
-                box-shadow: 0 10px 25px -5px rgba(0, 0, 0, 0.1), 0 10px 10px -5px rgba(0, 0, 0, 0.04);
+                transform: translateY(-6px);
+                box-shadow: 0 20px 40px -12px rgba(15, 23, 42, 0.15), 0 8px 16px -8px rgba(15, 23, 42, 0.06);
             }
             .nav-link {
                 position: relative;
@@ -88,7 +96,7 @@
                 height: 2px;
                 bottom: -2px;
                 left: 0;
-                background-color: #3B82F6;
+                background-color: #2563EB;
                 transition: width 0.3s ease;
             }
             .nav-link:hover::after {
@@ -100,6 +108,9 @@
         }
     </style>
     <style>
+        ::selection {
+            background-color: rgba(37, 99, 235, 0.2);
+        }
         /* Markdown 渲染样式 */
         .article-content {
             line-height: 1.8;
@@ -152,7 +163,7 @@
             margin-bottom: 0.25rem;
         }
         .article-content blockquote {
-            border-left: 4px solid #3B82F6;
+            border-left: 4px solid #2563EB;
             padding-left: 1rem;
             margin: 1rem 0;
             color: #6b7280;
@@ -166,7 +177,7 @@
             font-family: 'Fira Code', 'Monaco', 'Consolas', monospace;
         }
         .article-content pre {
-            background-color: #8baa9e;
+            background-color: #0f172a;
             color: #e2e8f0;
             padding: 1rem;
             border-radius: 0.5rem;
@@ -179,7 +190,7 @@
             color: inherit;
         }
         .article-content a {
-            color: #3B82F6;
+            color: #2563EB;
             text-decoration: underline;
         }
         .article-content a:hover {
@@ -255,9 +266,10 @@
     <section id="home" class="relative h-screen flex items-center justify-center overflow-hidden">
         <!-- 背景图 -->
         <div class="absolute inset-0 z-0">
-            <img src="/imgs/bkgnd.png" 
+            <img src="/imgs/bkgnd.jpg" 
                  alt="背景" 
-                 class="w-full h-full object-cover opacity-30">
+                 class="w-full h-full object-cover opacity-45">
+            <div class="absolute inset-0 bg-gradient-to-b from-white/30 via-transparent to-white"></div>
         </div>
         
         <!-- Three.js 背景 -->
@@ -783,7 +795,7 @@
             // 创建材质
             const particlesMaterial = new THREE.PointsMaterial({
                 size: 0.02,
-                color: 0x3B82F6,
+                color: 0x2563EB,
                 transparent: true,
                 opacity: 0.8
             });
@@ -1260,6 +1272,12 @@
                         </div>
                     `;
                     
+                    // 博客图片懒加载
+                    contentDiv.querySelectorAll('.article-content img').forEach(img => {
+                        img.loading = 'lazy';
+                        img.decoding = 'async';
+                    });
+
                     // 设置 URL hash，方便分享
                     history.replaceState(null, '', '#blog/' + filename);
                     
@@ -1386,6 +1404,12 @@
                         </div>
                     `;
                     
+                    // 经历图片懒加载
+                    contentDiv.querySelectorAll('.article-content img').forEach(img => {
+                        img.loading = 'lazy';
+                        img.decoding = 'async';
+                    });
+
                     setTimeout(() => {
                         hljs.highlightAll();
                     }, 100);
