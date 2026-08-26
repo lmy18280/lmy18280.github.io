@@ -11,10 +11,10 @@ tags: 碎碎念
     <li>
         <a href="https://music.163.com/#/song?id=3378698307" target="_blank" rel="noopener"
            class="flex items-center p-3 rounded-lg bg-white hover:bg-purple-50 border border-gray-100 hover:border-purple-200 transition-colors group">
-            <i class="fa fa-music text-purple-500 mr-3"></i>
+            <svg class="w-5 h-5 text-purple-500 mr-3" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M9 18V5l12-2v13"/><circle cx="6" cy="18" r="3"/><circle cx="18" cy="16" r="3"/></svg>
             <span class="text-gray-800 flex-1 truncate">主角 - 王菲</span>
             <span class="text-xs text-gray-400 group-hover:text-purple-500">
-                <i class="fa fa-external-link"></i>
+                <svg class="w-5 h-5 " viewBox="0 0 24 24" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M15 3h6v6"/><path d="M10 14 21 3"/><path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"/></svg>
             </span>
         </a>
     </li>
