@@ -13,12 +13,9 @@
     <meta property="og:description" content="Craig 的个人主页：吉林大学车辆工程在读，吉速电动方程式车队电气组。博客记录技术、生活与碎碎念。">
     <meta name="twitter:card" content="summary">
     <link rel="icon" type="image/png" href="/imgs/favicon.png">
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=Noto+Sans+SC:wght@400;500;700&display=swap" rel="stylesheet">
     <title>Craig</title>
-    <!-- Tailwind CSS v3 -->
-    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- Tailwind CSS v3 (本地) -->
+    <script src="/libs/tailwind.js"></script>
     <!-- 提前应用暗色模式，避免闪烁 -->
     <script>
         (function() {
@@ -32,17 +29,17 @@
         })();
     </script>
     <!-- Highlight.js for code syntax highlighting -->
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.8.0/styles/github-dark.min.css">
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.8.0/highlight.min.js"></script>
+    <link rel="stylesheet" href="/libs/github-dark.min.css">
+    <script src="/libs/highlight.min.js"></script>
     <script>hljs.highlightAll();</script>
     <!-- Font Awesome 已移除，图标改为内联 SVG -->
-    <!-- Three.js -->
-    <script src="https://cdn.jsdelivr.net/npm/three@0.140.1/build/three.min.js"></script>
-    <!-- AOS - Animate On Scroll -->
-    <link href="https://cdn.jsdelivr.net/npm/aos@2.3.4/dist/aos.css" rel="stylesheet">
-    <script src="https://cdn.jsdelivr.net/npm/aos@2.3.4/dist/aos.js"></script>
-    <!-- Marked.js for Markdown parsing -->
-    <script src="https://cdn.jsdelivr.net/npm/marked/marked.min.js"></script>
+    <!-- Three.js (本地) -->
+    <script src="/libs/three.min.js"></script>
+    <!-- AOS - Animate On Scroll (本地) -->
+    <link href="/libs/aos.css" rel="stylesheet">
+    <script src="/libs/aos.js"></script>
+    <!-- Marked.js for Markdown parsing (本地) -->
+    <script src="/libs/marked.min.js"></script>
     <!-- Tailwind 配置 -->
     <script>
         tailwind.config = {
@@ -54,9 +51,6 @@
                         secondary: '#10B981',
                         dark: '#0F172A',
                         light: '#F8FAFC'
-                    },
-                    fontFamily: {
-                        sans: ['Inter', 'Noto Sans SC', 'system-ui', 'sans-serif'],
                     },
                     animation: {
                         'typing': 'typing 3.5s steps(40, end)',
@@ -318,6 +312,7 @@
                 <a href="#home" class="nav-link active-nav">Home</a>
                 <a href="#about" class="nav-link">About Me</a>
                 <a href="#blog" class="nav-link">My Blog</a>
+                <a href="#gallery" class="nav-link">Gallery</a>
                 <a href="#contact" class="nav-link">Contact</a>
             </div>
             
@@ -341,6 +336,7 @@
                 <a href="#home" class="mobile-nav-link py-2">Home</a>
                 <a href="#about" class="mobile-nav-link py-2">About Me</a>
                 <a href="#blog" class="mobile-nav-link py-2">My Blog</a>
+                <a href="#gallery" class="mobile-nav-link py-2">Gallery</a>
                 <a href="#contact" class="mobile-nav-link py-2">Contact</a>
                 <button class="theme-toggle mobile-nav-link py-2 flex items-center gap-2 text-left" aria-label="切换主题">
                     <svg class="w-5 h-5 hidden dark:block" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3a6 6 0 0 0 9 9 9 9 0 1 1-9-9Z"/></svg>
@@ -491,7 +487,8 @@
                         </div>
                         <h3 class="text-xl font-semibold">Music</h3>
                     </div>
-                    <p class="text-sm text-gray-500 mb-3">此处会跳转至网易云音乐</p>
+                    <p class="text-sm text-gray-500 mb-3">🎵 正在播放（网易云音乐）</p>
+                    <iframe class="mb-3" frameborder="no" border="0" marginwidth="0" marginheight="0" width="100%" height="66" src="//music.163.com/outchain/player?type=2&id=3378698307&auto=0&height=66"></iframe>
                     <ul class="space-y-2">
                         <li>
                             <a href="https://music.163.com/#/song?id=3378698307" target="_blank" rel="noopener"
@@ -647,6 +644,45 @@
         </div>
     </section>
     
+    <!-- 照片墙 -->
+    <section id="gallery" class="py-20 bg-white">
+        <div class="container mx-auto px-4">
+            <div class="text-center mb-16" data-aos="fade-up">
+                <h2 class="text-3xl md:text-4xl font-bold mb-4">Photo Wall</h2>
+                <div class="w-24 h-1 bg-primary mx-auto"></div>
+                <p class="text-gray-500 mt-4">旅途与生活的碎片</p>
+            </div>
+            
+            <!-- 照片网格：新增照片放入 imgs/gallery/ 并复制一行即可 -->
+            <div class="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4">
+                <div class="relative group rounded-xl overflow-hidden cursor-pointer aspect-square" onclick="openImageModal('/imgs/gallery/travel-01.jpg')" data-aos="fade-up">
+                    <img src="/imgs/gallery/travel-01.jpg" alt="旅途" loading="lazy" class="w-full h-full object-cover transition-transform duration-500 group-hover:scale-110">
+                    <div class="absolute inset-0 bg-gradient-to-t from-black/50 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex items-end justify-center">
+                        <span class="text-white text-sm font-medium pb-3">旅途</span>
+                    </div>
+                </div>
+                <div class="relative group rounded-xl overflow-hidden cursor-pointer aspect-square" onclick="openImageModal('/imgs/gallery/memory-01.jpg')" data-aos="fade-up" data-aos-delay="50">
+                    <img src="/imgs/gallery/memory-01.jpg" alt="假期" loading="lazy" class="w-full h-full object-cover transition-transform duration-500 group-hover:scale-110">
+                    <div class="absolute inset-0 bg-gradient-to-t from-black/50 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex items-end justify-center">
+                        <span class="text-white text-sm font-medium pb-3">假期</span>
+                    </div>
+                </div>
+                <div class="relative group rounded-xl overflow-hidden cursor-pointer aspect-square" onclick="openImageModal('/imgs/gallery/memory-02.jpg')" data-aos="fade-up" data-aos-delay="100">
+                    <img src="/imgs/gallery/memory-02.jpg" alt="日常" loading="lazy" class="w-full h-full object-cover transition-transform duration-500 group-hover:scale-110">
+                    <div class="absolute inset-0 bg-gradient-to-t from-black/50 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex items-end justify-center">
+                        <span class="text-white text-sm font-medium pb-3">日常</span>
+                    </div>
+                </div>
+                <div class="relative group rounded-xl overflow-hidden cursor-pointer aspect-square" onclick="openImageModal('/imgs/gallery/memory-03.jpg')" data-aos="fade-up" data-aos-delay="150">
+                    <img src="/imgs/gallery/memory-03.jpg" alt="碎片" loading="lazy" class="w-full h-full object-cover transition-transform duration-500 group-hover:scale-110">
+                    <div class="absolute inset-0 bg-gradient-to-t from-black/50 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex items-end justify-center">
+                        <span class="text-white text-sm font-medium pb-3">碎片</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+    
     <!-- 联系区域 -->
     <section id="contact" class="py-20 bg-white">
         <div class="container mx-auto px-4">
@@ -752,6 +788,7 @@
                         <li><a href="#home" class="text-gray-400 hover:text-white transition-colors">Home</a></li>
                         <li><a href="#about" class="text-gray-400 hover:text-white transition-colors">About Me</a></li>
                         <li><a href="#blog" class="text-gray-400 hover:text-white transition-colors">My Blog</a></li>
+                        <li><a href="#gallery" class="text-gray-400 hover:text-white transition-colors">Gallery</a></li>
                         <li><a href="#contact" class="text-gray-400 hover:text-white transition-colors">Contact</a></li>
                     </ul>
                 </div>
@@ -775,11 +812,15 @@
             
             <div class="border-t border-gray-800 mt-12 pt-8 text-center">
                 <p class="text-gray-400">
-                    &copy; 2026 Craig All Rights Reserved<br>尽我所能，敬我所不能
+                    &copy; 2026 Craig All Rights Reserved<br>尽我所能，敬我所不能<br>
+                    <span class="text-sm">本站访问量 <span id="busuanzi_value_site_pv">-</span> 次 · 访客 <span id="busuanzi_value_site_uv">-</span> 人</span>
                 </p>
             </div>
         </div>
     </footer>
+
+    <!-- 访问统计 (不蒜子) -->
+    <script async src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
 
     <!-- 项目详情模态框 -->
     <div id="project-modal" class="fixed inset-0 z-50 flex items-center justify-center hidden">
@@ -1155,6 +1196,42 @@
             
             return protocol + '//' + host;
         }
+
+        // ===== Giscus 评论配置 =====
+        // 启用步骤（一次性，需 GitHub 操作）:
+        // 1. 仓库 Settings → General → 拉到最底勾选 Discussions
+        // 2. 安装 giscus app: https://github.com/apps/giscus（授权给本仓库）
+        // 3. 打开 https://giscus.app 生成配置，把 repoId / categoryId 填入下方，enabled 改为 true
+        const GISCUS_CONFIG = {
+            enabled: false,
+            repo: 'lmy18280/lmy18280.github.io',
+            repoId: '',      // 例如 R_kgDOxxxxx
+            category: 'Announcements',
+            categoryId: ''   // 例如 DIC_kwDOxxxxx
+        };
+
+        // 注入 giscus 评论脚本（未启用时什么都不显示）
+        function loadGiscusComments() {
+            const container = document.getElementById('giscus-comments');
+            if (!container || !GISCUS_CONFIG.enabled) return;
+            container.innerHTML = '';
+            const script = document.createElement('script');
+            script.src = 'https://giscus.app/client.js';
+            script.async = true;
+            script.crossOrigin = 'anonymous';
+            script.setAttribute('data-repo', GISCUS_CONFIG.repo);
+            script.setAttribute('data-repo-id', GISCUS_CONFIG.repoId);
+            script.setAttribute('data-category', GISCUS_CONFIG.category);
+            script.setAttribute('data-category-id', GISCUS_CONFIG.categoryId);
+            script.setAttribute('data-mapping', 'pathname');
+            script.setAttribute('data-strict', '0');
+            script.setAttribute('data-reactions-enabled', '1');
+            script.setAttribute('data-emit-metadata', '0');
+            script.setAttribute('data-input-position', 'bottom');
+            script.setAttribute('data-theme', 'light');
+            script.setAttribute('data-lang', 'zh-CN');
+            container.appendChild(script);
+        }
         
         // 解析markdown元数据
         function parsePostMeta(markdown) {
@@ -1470,6 +1547,7 @@
                             <div class="border-t pt-6 article-content">
                                 ${htmlContent}
                             </div>
+                            <div id="giscus-comments" class="mt-10"></div>
                         </div>
                     `;
                     
@@ -1478,6 +1556,9 @@
                         img.loading = 'lazy';
                         img.decoding = 'async';
                     });
+
+                    // 加载 giscus 评论（未配置时自动跳过）
+                    loadGiscusComments();
 
                     // 设置 URL hash，方便分享
                     history.replaceState(null, '', '#blog/' + filename);
