@@ -1467,11 +1467,6 @@
                                     ${meta.tags.map(tag => `<span class="px-2 py-1 bg-purple-100 text-purple-700 rounded-full text-sm">${tag}</span>`).join('')}
                                 </div>
                             ` : ''}
-                            <div class="flex items-center gap-2 mb-4">
-                                <button onclick="copyShareLink(${JSON.stringify(meta.title)})" class="flex items-center gap-1 px-3 py-1 text-sm bg-gray-100 hover:bg-gray-200 rounded transition-colors">
-                                    <svg fill="none" class="w-5 h-5 " viewBox="0 0 24 24" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="18" cy="5" r="3"/><circle cx="6" cy="12" r="3"/><circle cx="18" cy="19" r="3"/><path d="m8.59 13.51 6.83 3.98"/><path d="m15.41 6.51-6.82 3.98"/></svg> 分享链接
-                                </button>
-                            </div>
                             <div class="border-t pt-6 article-content">
                                 ${htmlContent}
                             </div>
@@ -1499,16 +1494,6 @@
                 console.error('加载文章失败:', error);
                 contentDiv.innerHTML = '<div class="text-center py-12 text-red-500">文章加载失败</div>';
             }
-        }
-        
-        // 复制分享链接
-        function copyShareLink(title) {
-            const url = window.location.origin + window.location.pathname + window.location.hash;
-            navigator.clipboard.writeText(url).then(() => {
-                showToast('链接已复制：' + (title || '') + ' ' + url);
-            }).catch(() => {
-                showToast('复制失败，请手动复制地址栏链接');
-            });
         }
         
         // 关闭文章模态框
