@@ -1084,33 +1084,76 @@
         const BASE_URL = 'https://lmy18280.github.io';
         const BLOG_DIRECTORY = '/blogs/';
         
-        // 手动配置文章列表（用于 GitHub Pages 部署）
-        // *******************************************当你添加新文章时，只需在这里添加文件名即可
-        const BLOG_FILES = [
+        // 文章清单：默认手动列表（自动发现失败时的回退方案）
+        // *******************************************如需手动添加文章，在此添加文件名即可
+        let BLOG_FILES = [
             'first-post.md',
             'second-post.md',
-            'third-post.md',
-            // *******************************************当你添加新文章时，只需取消注释下面的行并添加文件名
+            'third-post.md'
         ];
-        
-        // 获取当前页面的完整 URL 路径
+
+        // markdown 内容缓存（同一篇文章只下载一次）
+        const mdCache = {};
+
+        // 带缓存的 fetch：重复请求直接命中内存
+        async function fetchMarkdown(url) {
+            if (mdCache[url]) return mdCache[url];
+            const response = await fetch(url);
+            if (!response.ok) throw new Error('HTTP ' + response.status);
+            const text = await response.text();
+            mdCache[url] = text;
+            return text;
+        }
+
+        // 自动发现文章：通过 GitHub API 读取 blogs 目录（带 10 分钟本地缓存，失败时回退手动列表）
+        async function discoverBlogFiles() {
+            const API_URL = 'https://api.github.com/repos/lmy18280/lmy18280.github.io/contents/blogs';
+            const CACHE_KEY = 'blog-files-cache';
+            const CACHE_TTL = 10 * 60 * 1000;
+
+            // 优先用本地缓存，避免频繁请求 API
+            try {
+                const cached = JSON.parse(localStorage.getItem(CACHE_KEY) || 'null');
+                if (cached && Date.now() - cached.time < CACHE_TTL) {
+                    return cached.files;
+                }
+            } catch (e) { /* 缓存损坏时忽略 */ }
+
+            try {
+                const response = await fetch(API_URL);
+                if (!response.ok) throw new Error('HTTP ' + response.status);
+                const items = await response.json();
+                const files = items
+                    .filter(item => item.type === 'file' && item.name.endsWith('.md'))
+                    .map(item => item.name);
+                if (files.length > 0) {
+                    localStorage.setItem(CACHE_KEY, JSON.stringify({ time: Date.now(), files: files }));
+                    return files;
+                }
+            } catch (e) {
+                console.warn('自动发现文章失败，回退到手动列表:', e);
+            }
+            return null;
+        }
+
+        // 获取当前页面的完整 URL 路径（用 host 保留端口，本地调试也能用）
         function getCurrentBaseUrl() {
             const protocol = window.location.protocol;
-            const hostname = window.location.hostname;
+            const host = window.location.host;
             const pathname = window.location.pathname;
             
             // 如果是 GitHub Pages 用户页面 (username.github.io)
-            if (hostname === 'lmy18280.github.io') {
-                return protocol + '//' + hostname;
+            if (host === 'lmy18280.github.io') {
+                return protocol + '//' + host;
             }
             
             // 如果是项目页面 (username.github.io/repo-name)
             const repoMatch = pathname.match(/^\/([^\/]+)\//);
             if (repoMatch) {
-                return protocol + '//' + hostname + '/' + repoMatch[1];
+                return protocol + '//' + host + '/' + repoMatch[1];
             }
             
-            return protocol + '//' + hostname;
+            return protocol + '//' + host;
         }
         
         // 解析markdown元数据
@@ -1271,7 +1314,7 @@
                     <div class="text-center text-gray-500 col-span-full py-12">
                         <svg fill="none" class="w-9 h-9 mb-4 opacity-50" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M15 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V7Z"/><path d="M14 2v4a2 2 0 0 0 2 2h4"/><path d="M10 9H8"/><path d="M16 13H8"/><path d="M16 17H8"/></svg>
                         <p>暂无文章</p>
-                        <p class="text-sm mt-2">${selectedTag ? `没有找到标签 "${selectedTag}" 的文章` : '在 blogs 目录下添加 .md 文件并更新 BLOG_FILES 列表即可发布文章'}</p>
+                        <p class="text-sm mt-2">${selectedTag ? `没有找到标签 "${selectedTag}" 的文章` : '在 blogs 目录下添加 .md 文件即可自动发布文章'}</p>
                     </div>
                 `;
             } else {
@@ -1314,40 +1357,30 @@
             const blogList = document.getElementById('blog-list');
             const currentBaseUrl = getCurrentBaseUrl();
             
-            console.log('当前基础URL:', currentBaseUrl);
-            console.log('博客目录:', currentBaseUrl + BLOG_DIRECTORY);
-            console.log('文章列表:', BLOG_FILES);
-            
             try {
                 let posts = [];
                 
-                // 从配置的文件列表加载文章
-                for (const file of BLOG_FILES) {
-                    const fullUrl = currentBaseUrl + BLOG_DIRECTORY + file;
-                    console.log('尝试加载:', fullUrl);
-                    
-                    try {
-                        const response = await fetch(fullUrl);
-                        console.log(`文件 ${file} HTTP状态:`, response.status);
-                        
-                        if (response.ok) {
-                            const markdown = await response.text();
-                            console.log(`文件 ${file} 内容长度:`, markdown.length);
-                            
-                            const meta = parsePostMeta(markdown);
-                            meta.filename = file;
-                            meta.cover = getPostCover(meta.content);
-                            meta.readingTime = getReadingTime(meta.content);
-                            posts.push(meta);
-                        } else {
-                            console.warn(`文件 ${file} 加载失败，HTTP状态: ${response.status}`);
-                        }
-                    } catch (e) {
-                        console.error(`加载文件 ${file} 时发生错误:`, e);
-                    }
+                // 自动发现文章列表（失败时回退到手动列表）
+                const discovered = await discoverBlogFiles();
+                if (discovered) {
+                    BLOG_FILES = discovered;
                 }
                 
-                console.log('成功加载的文章数量:', posts.length);
+                // 加载每篇文章（带缓存）
+                for (const file of BLOG_FILES) {
+                    const fullUrl = currentBaseUrl + BLOG_DIRECTORY + file;
+                    
+                    try {
+                        const markdown = await fetchMarkdown(fullUrl);
+                        const meta = parsePostMeta(markdown);
+                        meta.filename = file;
+                        meta.cover = getPostCover(meta.content);
+                        meta.readingTime = getReadingTime(meta.content);
+                        posts.push(meta);
+                    } catch (e) {
+                        console.warn(`文件 ${file} 加载失败:`, e);
+                    }
+                }
                 
                 // 按日期排序（最新的在前）
                 posts.sort((a, b) => {
@@ -1362,13 +1395,15 @@
                 
                 // 收集所有标签
                 const allTags = [...new Set(posts.flatMap(post => post.tags))];
-                console.log('所有标签:', allTags);
                 
                 // 渲染标签筛选器
                 renderTagFilter(allTags);
                 
                 // 渲染文章列表
                 renderBlogList(posts);
+
+                // 文章加载完成后，再处理一次 hash（支持自动发现的新文章）
+                checkHashAndOpenArticle();
                 
             } catch (error) {
                 console.error('加载博客失败:', error);
@@ -1395,9 +1430,9 @@
             contentDiv.innerHTML = '<div class="text-center py-12"><svg fill="none" class="w-9 h-9  animate-spin" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M21 12a9 9 0 1 1-6.219-8.56"/></svg></div>';
             
             try {
-                const response = await fetch(BLOG_DIRECTORY + filename);
-                if (response.ok) {
-                    const markdown = await response.text();
+                const currentBaseUrl = getCurrentBaseUrl();
+                const markdown = await fetchMarkdown(currentBaseUrl + BLOG_DIRECTORY + filename);
+                {
                     const meta = parsePostMeta(markdown);
                     
                     // 配置marked.js，添加代码高亮
@@ -1459,8 +1494,6 @@
                     setTimeout(() => {
                         hljs.highlightAll();
                     }, 100);
-                } else {
-                    contentDiv.innerHTML = '<div class="text-center py-12 text-red-500">文章加载失败</div>';
                 }
             } catch (error) {
                 console.error('加载文章失败:', error);
@@ -1523,7 +1556,8 @@
             const hash = window.location.hash;
             if (hash.startsWith('#blog/')) {
                 const filename = decodeURIComponent(hash.slice(6));
-                if (BLOG_FILES.includes(filename)) {
+                const modal = document.getElementById('article-modal');
+                if (BLOG_FILES.includes(filename) && modal.classList.contains('hidden')) {
                     openArticle(filename);
                 }
             }
@@ -1551,9 +1585,9 @@
             contentDiv.innerHTML = '<div class="text-center py-12"><svg fill="none" class="w-9 h-9  animate-spin" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M21 12a9 9 0 1 1-6.219-8.56"/></svg></div>';
             
             try {
-                const response = await fetch('/ExperiencesDisc/' + postId + '.md');
-                if (response.ok) {
-                    const markdown = await response.text();
+                const currentBaseUrl = getCurrentBaseUrl();
+                const markdown = await fetchMarkdown(currentBaseUrl + '/ExperiencesDisc/' + postId + '.md');
+                {
                     const meta = parsePostMeta(markdown);
                     
                     // 使用marked.js解析markdown
@@ -1596,8 +1630,6 @@
                     setTimeout(() => {
                         hljs.highlightAll();
                     }, 100);
-                } else {
-                    contentDiv.innerHTML = '<div class="text-center py-12 text-red-500">加载失败</div>';
                 }
             } catch (error) {
                 console.error('加载经历详情失败:', error);
