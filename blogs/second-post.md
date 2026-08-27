@@ -2,7 +2,7 @@
 title: React 组件最佳实践
 date: 2026-06-12
 description: 学习 React 组件设计的最佳实践，写出更优雅、可维护的代码
-tags: React, 前端框架, 最佳实践
+tags: React, 前端框架
 ---
 
 React 是目前最流行的前端框架之一，编写高质量的组件是每个 React 开发者的必备技能。
