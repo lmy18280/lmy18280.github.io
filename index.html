@@ -247,8 +247,20 @@
 
         /* ===== 暗色模式覆盖 ===== */
         .dark body { background-color: #0F172A !important; color: #E2E8F0 !important; }
-        .dark #navbar { background-color: rgba(15, 23, 42, 0.92) !important; }
-        .dark #mobile-menu { background-color: #1E293B !important; }
+        .dark #navbar {
+            background-color: rgba(15, 23, 42, 0.72) !important;
+            border-color: rgba(148, 163, 184, 0.18) !important;
+            box-shadow: 0 10px 30px -14px rgba(0, 0, 0, 0.6), 0 4px 12px -8px rgba(0, 0, 0, 0.4) !important;
+        }
+        .dark #navbar.nav-scrolled {
+            background-color: rgba(15, 23, 42, 0.85) !important;
+            box-shadow: 0 16px 40px -18px rgba(0, 0, 0, 0.7), 0 6px 16px -10px rgba(0, 0, 0, 0.5) !important;
+        }
+        .dark #mobile-menu {
+            background-color: rgba(30, 41, 59, 0.85) !important;
+            border-color: rgba(148, 163, 184, 0.18) !important;
+            box-shadow: 0 18px 44px -16px rgba(0, 0, 0, 0.65) !important;
+        }
         .dark #navbar .text-dark, .dark .text-dark { color: #E2E8F0 !important; }
         .dark #home .text-dark { color: #F1F5F9 !important; }
         .dark section.bg-white { background-color: #0F172A !important; }
@@ -300,12 +312,102 @@
         }
         .article-content table { box-shadow: 0 1px 3px rgba(0, 0, 0, 0.05); }
     </style>
+    <!-- ===== 悬浮毛玻璃导航栏（高斯模糊 + 圆角浮起 + 流畅动画） ===== -->
+    <style>
+        /* 导航栏主体：毛玻璃 + 圆角 + 悬浮 */
+        #navbar {
+            left: 0;
+            right: 0;
+            width: calc(100% - 2rem);
+            max-width: 1280px;
+            margin: 0.85rem auto 0;
+            border-radius: 1.1rem;
+            background-color: rgba(255, 255, 255, 0.72);
+            border: 1px solid rgba(255, 255, 255, 0.55);
+            box-shadow: 0 10px 30px -14px rgba(15, 23, 42, 0.25),
+                        0 4px 12px -8px rgba(15, 23, 42, 0.12);
+            -webkit-backdrop-filter: blur(14px) saturate(180%);
+            backdrop-filter: blur(14px) saturate(180%);
+            transform: translateZ(0);
+            will-change: transform, box-shadow, backdrop-filter;
+            transition:
+                margin 0.45s cubic-bezier(0.22, 1, 0.36, 1),
+                padding 0.45s cubic-bezier(0.22, 1, 0.36, 1),
+                background-color 0.45s ease,
+                border-color 0.45s ease,
+                border-radius 0.45s ease,
+                box-shadow 0.45s ease,
+                backdrop-filter 0.45s ease,
+                -webkit-backdrop-filter 0.45s ease,
+                transform 0.45s cubic-bezier(0.22, 1, 0.36, 1);
+            animation: navbarDrop 0.7s cubic-bezier(0.22, 1, 0.36, 1) both;
+        }
+
+        /* 进场：从上方滑落淡入 */
+        @keyframes navbarDrop {
+            from { opacity: 0; transform: translateY(-120%); }
+            to   { opacity: 1; transform: translateY(0); }
+        }
+
+        /* 滚动后：更紧致、更实、阴影更强 */
+        #navbar.nav-scrolled {
+            margin-top: 0.6rem;
+            background-color: rgba(255, 255, 255, 0.85);
+            box-shadow: 0 16px 40px -18px rgba(15, 23, 42, 0.35),
+                        0 6px 16px -10px rgba(15, 23, 42, 0.18);
+        }
+
+        /* 移动端菜单：同样毛玻璃 + 圆角弹出动画 */
+        #mobile-menu {
+            left: 0;
+            right: 0;
+            width: auto;
+            margin: 0.55rem 0 0.8rem;
+            border-radius: 1.1rem;
+            background-color: rgba(255, 255, 255, 0.85);
+            border: 1px solid rgba(255, 255, 255, 0.5);
+            box-shadow: 0 18px 44px -16px rgba(15, 23, 42, 0.3);
+            -webkit-backdrop-filter: blur(14px) saturate(180%);
+            backdrop-filter: blur(14px) saturate(180%);
+            overflow: hidden;
+            transform-origin: top center;
+        }
+        #mobile-menu:not(.hidden) {
+            animation: mobileMenuIn 0.34s cubic-bezier(0.22, 1, 0.36, 1) both;
+        }
+        @keyframes mobileMenuIn {
+            from { opacity: 0; transform: translateY(-0.6rem) scale(0.98); }
+            to   { opacity: 1; transform: translateY(0) scale(1); }
+        }
+
+        /* 导航链接更顺滑的过渡 */
+        #navbar .nav-link {
+            transition: color 0.28s ease, transform 0.28s ease;
+        }
+        #navbar .nav-link:hover {
+            transform: translateY(-1px);
+        }
+        #navbar .nav-link::after {
+            transition: width 0.32s cubic-bezier(0.22, 1, 0.36, 1), background-color 0.28s ease;
+        }
+
+        /* 尊重「减少动态效果」偏好 */
+        @media (prefers-reduced-motion: reduce) {
+            #navbar,
+            #mobile-menu:not(.hidden),
+            #navbar .nav-link,
+            #navbar .nav-link::after {
+                animation: none !important;
+                transition: none !important;
+            }
+        }
+    </style>
 </head>
 <body class="bg-light text-dark">
     <!-- 滚动进度条 -->
     <div id="scroll-progress" class="fixed top-0 left-0 h-0.5 bg-gradient-to-r from-blue-600 to-indigo-600 z-[70] w-0"></div>
     <!-- 导航栏 -->
-    <nav id="navbar" class="fixed top-0 left-0 w-full bg-white bg-opacity-95 shadow-md z-50 transition-all duration-300">
+    <nav id="navbar" class="fixed top-0 left-0 z-50">
         <div class="container mx-auto px-4 py-3 flex justify-between items-center">
             <a href="#" class="text-2xl font-bold text-primary">Craig</a>
             
@@ -333,7 +435,7 @@
         </div>
         
         <!-- 移动端导航菜单 -->
-        <div id="mobile-menu" class="md:hidden hidden bg-white shadow-lg absolute w-full">
+        <div id="mobile-menu" class="md:hidden hidden absolute w-full">
             <div class="container mx-auto px-4 py-3 flex flex-col space-y-3">
                 <a href="#home" class="mobile-nav-link py-2">Home</a>
                 <a href="#about" class="mobile-nav-link py-2">About Me</a>
@@ -1044,11 +1146,11 @@
             window.addEventListener('scroll', () => {
                 // 导航栏背景透明度
                 if (window.scrollY > 50) {
-                    navbar.classList.add('py-2');
+                    navbar.classList.add('py-2', 'nav-scrolled');
                     navbar.classList.remove('py-3');
                 } else {
                     navbar.classList.add('py-3');
-                    navbar.classList.remove('py-2');
+                    navbar.classList.remove('py-2', 'nav-scrolled');
                 }
                 
                 // 高亮当前部分的导航链接
