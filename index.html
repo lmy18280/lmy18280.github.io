@@ -1,0 +1,1905 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Craig 的个人主页">
+    <meta name="author" content="Craig">
+    <meta name="theme-color" content="#F8FAFC">
+    <meta property="og:title" content="Craig">
+    <meta property="og:type" content="website">
+    <meta property="og:url" content="https://lmy18280.github.io/">
+    <meta property="og:image" content="https://lmy18280.github.io/imgs/profile/profile.jpg">
+    <meta property="og:description" content="Craig 的个人主页">
+    <meta name="twitter:card" content="summary">
+    <link rel="icon" type="image/png" href="/imgs/favicon.png">
+    <title>Craig</title>
+    <!-- Tailwind CSS v3 (本地) -->
+    <script src="/libs/tailwind.js"></script>
+    <!-- 提前应用暗色模式，避免闪烁 -->
+    <script>
+        (function() {
+            try {
+                var saved = localStorage.getItem('theme');
+                var prefersDark = window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches;
+                if (saved ? saved === 'dark' : prefersDark) {
+                    document.documentElement.classList.add('dark');
+                }
+            } catch (e) {}
+        })();
+    </script>
+    <!-- Highlight.js for code syntax highlighting -->
+    <link rel="stylesheet" href="/libs/github-dark.min.css">
+    <script src="/libs/highlight.min.js"></script>
+    <script>hljs.highlightAll();</script>
+    <!-- Font Awesome 已移除，图标改为内联 SVG -->
+    <!-- Three.js (本地) -->
+    <script src="/libs/three.min.js"></script>
+    <!-- AOS - Animate On Scroll (本地) -->
+    <link href="/libs/aos.css" rel="stylesheet">
+    <script src="/libs/aos.js"></script>
+    <!-- Marked.js for Markdown parsing (本地) -->
+    <script src="/libs/marked.min.js"></script>
+    <!-- Tailwind 配置 -->
+    <script>
+        tailwind.config = {
+            darkMode: 'class',
+            theme: {
+                extend: {
+                    colors: {
+                        primary: '#2563EB',
+                        secondary: '#10B981',
+                        dark: '#0F172A',
+                        light: '#F8FAFC'
+                    },
+                    animation: {
+                        'typing': 'typing 3.5s steps(40, end)',
+                        'blink': 'blink .75s step-end infinite',
+                    },
+                    keyframes: {
+                        typing: {
+                            'from': { width: '0' },
+                            'to': { width: '100%' }
+                        },
+                        blink: {
+                            'from, to': { borderColor: 'transparent' },
+                            '50%': { borderColor: 'currentColor' }
+                        }
+                    }
+                }
+            }
+        }
+    </script>
+    <style type="text/tailwindcss">
+        @layer utilities {
+            .text-shadow {
+                text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.3);
+            }
+            .bg-gradient {
+                background: linear-gradient(135deg, #2563EB 0%, #4F46E5 100%);
+            }
+            .typing-cursor {
+                border-right: 0.15em solid;
+                animation: blink 0.75s step-end infinite;
+            }
+            .card-hover {
+                transition: transform 0.3s ease, box-shadow 0.3s ease;
+            }
+            .card-hover:hover {
+                transform: translateY(-6px);
+                box-shadow: 0 20px 40px -12px rgba(15, 23, 42, 0.15), 0 8px 16px -8px rgba(15, 23, 42, 0.06);
+            }
+            .nav-link {
+                position: relative;
+            }
+            .nav-link::after {
+                content: '';
+                position: absolute;
+                width: 0;
+                height: 2px;
+                bottom: -2px;
+                left: 0;
+                background-color: #2563EB;
+                transition: width 0.3s ease;
+            }
+            .nav-link:hover::after {
+                width: 100%;
+            }
+            .active-nav::after {
+                width: 100%;
+            }
+        }
+    </style>
+    <style>
+        ::selection {
+            background-color: rgba(37, 99, 235, 0.2);
+        }
+        /* Markdown 渲染样式 */
+        .article-content {
+            line-height: 1.8;
+            color: #374151;
+        }
+        .article-content h1 {
+            font-size: 1.875rem;
+            font-weight: 700;
+            margin-top: 2rem;
+            margin-bottom: 1rem;
+            color: #111827;
+            border-bottom: 1px solid #e5e7eb;
+            padding-bottom: 0.5rem;
+        }
+        .article-content h2 {
+            font-size: 1.5rem;
+            font-weight: 600;
+            margin-top: 1.5rem;
+            margin-bottom: 0.75rem;
+            color: #1f2937;
+        }
+        .article-content h3 {
+            font-size: 1.25rem;
+            font-weight: 600;
+            margin-top: 1.25rem;
+            margin-bottom: 0.5rem;
+            color: #1f2937;
+        }
+        .article-content h4, .article-content h5, .article-content h6 {
+            font-size: 1rem;
+            font-weight: 600;
+            margin-top: 1rem;
+            margin-bottom: 0.5rem;
+            color: #1f2937;
+        }
+        .article-content p {
+            margin-bottom: 1rem;
+        }
+        .article-content ul, .article-content ol {
+            margin-bottom: 1rem;
+            padding-left: 1.5rem;
+        }
+        .article-content ul {
+            list-style-type: disc;
+        }
+        .article-content ol {
+            list-style-type: decimal;
+        }
+        .article-content li {
+            margin-bottom: 0.25rem;
+        }
+        .article-content blockquote {
+            border-left: 4px solid #2563EB;
+            padding-left: 1rem;
+            margin: 1rem 0;
+            color: #6b7280;
+            font-style: italic;
+        }
+        .article-content code {
+            background-color: #f3f4f6;
+            padding: 0.125rem 0.25rem;
+            border-radius: 0.25rem;
+            font-size: 0.875rem;
+            font-family: 'Fira Code', 'Monaco', 'Consolas', monospace;
+        }
+        .article-content pre {
+            background-color: #0f172a;
+            color: #e2e8f0;
+            padding: 1rem;
+            border-radius: 0.5rem;
+            overflow-x: auto;
+            margin-bottom: 1rem;
+        }
+        .article-content pre code {
+            background-color: transparent;
+            padding: 0;
+            color: inherit;
+        }
+        .article-content a {
+            color: #2563EB;
+            text-decoration: underline;
+        }
+        .article-content a:hover {
+            color: #2563eb;
+        }
+        .article-content hr {
+            border: none;
+            border-top: 1px solid #e5e7eb;
+            margin: 2rem 0;
+        }
+        .article-content table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-bottom: 1rem;
+        }
+        .article-content th, .article-content td {
+            border: 1px solid #e5e7eb;
+            padding: 0.5rem;
+            text-align: left;
+        }
+        .article-content th {
+            background-color: #f9fafb;
+            font-weight: 600;
+        }
+        .article-content img {
+            max-width: 100%;
+            border-radius: 0.5rem;
+            margin: 1rem 0;
+        }
+        .article-content strong {
+            font-weight: 700;
+            color: #111827;
+        }
+        .article-content em {
+            font-style: italic;
+        }
+    </style>
+    <style>
+        /* ===== 自定义颜色兜底（不依赖 Tailwind 运行时配置，防止 CDN 异常时样式丢失） ===== */
+        .bg-primary { background-color: #2563EB; }
+        .hover\:bg-primary:hover { background-color: #2563EB; }
+        .text-primary { color: #2563EB; }
+        .hover\:text-primary:hover { color: #2563EB; }
+        .bg-secondary { background-color: #10B981; }
+        .text-secondary { color: #10B981; }
+        .bg-dark { background-color: #0F172A; }
+        .text-dark { color: #0F172A; }
+        .bg-light { background-color: #F8FAFC; }
+        /* 暗色模式下 Hero 圆钮保持可见 */
+        .dark #home a.bg-dark { background-color: #1E293B; }
+
+        /* ===== 暗色模式覆盖 ===== */
+        .dark body { background-color: #0F172A !important; color: #E2E8F0 !important; }
+        .dark #navbar {
+            background-color: rgba(15, 23, 42, 0.72) !important;
+            border-color: rgba(148, 163, 184, 0.18) !important;
+            box-shadow: 0 10px 30px -14px rgba(0, 0, 0, 0.6), 0 4px 12px -8px rgba(0, 0, 0, 0.4) !important;
+        }
+        .dark #navbar.nav-scrolled {
+            background-color: rgba(15, 23, 42, 0.85) !important;
+            box-shadow: 0 16px 40px -18px rgba(0, 0, 0, 0.7), 0 6px 16px -10px rgba(0, 0, 0, 0.5) !important;
+        }
+        .dark #mobile-menu {
+            background-color: rgba(15, 23, 42, 0.42) !important;
+            border-color: rgba(148, 163, 184, 0.18) !important;
+            box-shadow: 0 18px 44px -16px rgba(0, 0, 0, 0.65) !important;
+        }
+        .dark #navbar .text-dark, .dark .text-dark { color: #E2E8F0 !important; }
+        .dark #home .text-dark { color: #F1F5F9 !important; }
+        .dark section.bg-white { background-color: #0F172A !important; }
+        .dark section.bg-gray-50 { background-color: #101B31 !important; }
+        .dark .bg-white { background-color: #1E293B !important; }
+        .dark .bg-gray-50 { background-color: #16213A !important; }
+        .dark .bg-gray-100 { background-color: #1E293B !important; }
+        .dark .bg-gray-200 { background-color: #334155 !important; }
+        .dark .hover\:bg-gray-300:hover { background-color: #475569 !important; }
+        .dark .text-gray-500, .dark .text-gray-600, .dark .text-gray-700, .dark .text-gray-800 { color: #CBD5E1 !important; }
+        .dark .text-gray-400 { color: #94A3B8 !important; }
+        .dark .border-gray-100, .dark .border-gray-200 { border-color: #334155 !important; }
+        .dark #hero-overlay { background-image: linear-gradient(to bottom, rgba(15,23,42,0.55), transparent, #0F172A) !important; }
+        .dark #article-modal .bg-white, .dark #project-modal .bg-white { background-color: #1E293B !important; }
+        /* 文章内容暗色 */
+        .dark .article-content { color: #CBD5E1 !important; }
+        .dark .article-content h1, .dark .article-content h2, .dark .article-content h3,
+        .dark .article-content h4, .dark .article-content strong { color: #F1F5F9 !important; }
+        .dark .article-content h1 { border-bottom-color: #334155 !important; }
+        .dark .article-content code { background-color: #1E293B !important; }
+        .dark .article-content blockquote { color: #94A3B8 !important; background-color: #111C33 !important; }
+        .dark .article-content th, .dark .article-content td { border-color: #334155 !important; }
+        .dark .article-content th { background-color: #1E293B !important; }
+        .dark .article-content img { box-shadow: 0 4px 16px rgba(0, 0, 0, 0.4) !important; }
+
+        /* ===== 模态框动画 ===== */
+        .modal-enter { animation: modalFadeIn 0.25s ease; }
+        @keyframes modalFadeIn {
+            from { opacity: 0; transform: scale(0.96) translateY(10px); }
+            to { opacity: 1; transform: scale(1) translateY(0); }
+        }
+
+        /* ===== 文章排版微调 ===== */
+        .article-content blockquote {
+            background-color: #F8FAFC;
+            border-radius: 0.5rem;
+            padding: 0.75rem 1rem;
+        }
+        .article-content img { box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08); }
+        .article-content pre { border: 1px solid rgba(148, 163, 184, 0.15); font-size: 0.9rem; }
+        .article-content h2 { display: flex; align-items: center; gap: 0.5rem; }
+        .article-content h2::before {
+            content: '';
+            width: 4px;
+            height: 1.2em;
+            border-radius: 2px;
+            background: linear-gradient(180deg, #2563EB, #4F46E5);
+            flex-shrink: 0;
+        }
+        .article-content table { box-shadow: 0 1px 3px rgba(0, 0, 0, 0.05); }
+    </style>
+    <!-- ===== 悬浮毛玻璃导航栏（高斯模糊 + 圆角浮起 + 流畅动画） ===== -->
+    <style>
+        /* 导航栏主体：毛玻璃 + 圆角 + 悬浮 */
+        #navbar {
+            left: 0;
+            right: 0;
+            width: calc(100% - 2rem);
+            max-width: 1280px;
+            margin: 0.85rem auto 0;
+            border-radius: 1.1rem;
+            background-color: rgba(255, 255, 255, 0.72);
+            border: 1px solid rgba(255, 255, 255, 0.55);
+            box-shadow: 0 10px 30px -14px rgba(15, 23, 42, 0.25),
+                        0 4px 12px -8px rgba(15, 23, 42, 0.12);
+            -webkit-backdrop-filter: blur(14px) saturate(180%);
+            backdrop-filter: blur(14px) saturate(180%);
+            transform: translateZ(0);
+            will-change: transform, box-shadow, backdrop-filter;
+            transition:
+                margin 0.45s cubic-bezier(0.22, 1, 0.36, 1),
+                padding 0.45s cubic-bezier(0.22, 1, 0.36, 1),
+                background-color 0.45s ease,
+                border-color 0.45s ease,
+                border-radius 0.45s ease,
+                box-shadow 0.45s ease,
+                backdrop-filter 0.45s ease,
+                -webkit-backdrop-filter 0.45s ease,
+                transform 0.45s cubic-bezier(0.22, 1, 0.36, 1);
+            animation: navbarDrop 0.7s cubic-bezier(0.22, 1, 0.36, 1) both;
+        }
+
+        /* 进场：从上方滑落淡入 */
+        @keyframes navbarDrop {
+            from { opacity: 0; transform: translateY(-120%); }
+            to   { opacity: 1; transform: translateY(0); }
+        }
+
+        /* 滚动后：更紧致、更实、阴影更强 */
+        #navbar.nav-scrolled {
+            margin-top: 0.6rem;
+            background-color: rgba(255, 255, 255, 0.85);
+            box-shadow: 0 16px 40px -18px rgba(15, 23, 42, 0.35),
+                        0 6px 16px -10px rgba(15, 23, 42, 0.18);
+        }
+
+        /* 移动端菜单：独立 fixed 定位 + 高斯模糊（top 由 JS 跟随导航栏实时高度） */
+        #mobile-menu {
+            position: fixed;
+            top: 5.6rem;
+            left: 50%;
+            right: auto;
+            width: calc(100% - 2rem);
+            max-width: 1280px;
+            margin: 0;
+            z-index: 45;
+            border-radius: 1.1rem;
+            background-color: rgba(255, 255, 255, 0.42);
+            border: 1px solid rgba(255, 255, 255, 0.45);
+            box-shadow: 0 18px 44px -16px rgba(15, 23, 42, 0.3);
+            -webkit-backdrop-filter: blur(24px) saturate(170%);
+            backdrop-filter: blur(24px) saturate(170%);
+            overflow: hidden;
+            transform: translateX(-50%);
+            transform-origin: top center;
+        }
+        #mobile-menu:not(.hidden) {
+            animation: mobileMenuIn 0.34s cubic-bezier(0.22, 1, 0.36, 1) both;
+        }
+        @keyframes mobileMenuIn {
+            from { opacity: 0; transform: translateX(-50%) translateY(-0.6rem) scale(0.98); }
+            to   { opacity: 1; transform: translateX(-50%) translateY(0) scale(1); }
+        }
+
+        /* 导航链接更顺滑的过渡 */
+        #navbar .nav-link {
+            transition: color 0.28s ease, transform 0.28s ease;
+        }
+        #navbar .nav-link:hover {
+            transform: translateY(-1px);
+        }
+        #navbar .nav-link::after {
+            transition: width 0.32s cubic-bezier(0.22, 1, 0.36, 1), background-color 0.28s ease;
+        }
+
+        /* 「学习进度」独立配色 */
+        #navbar .study-nav-link { color: #10B981; }
+        #navbar .study-nav-link:hover { color: #059669; }
+        #navbar .study-nav-link::after { background-color: #10B981; }
+
+        /* 尊重「减少动态效果」偏好 */
+        @media (prefers-reduced-motion: reduce) {
+            #navbar,
+            #mobile-menu:not(.hidden),
+            #navbar .nav-link,
+            #navbar .nav-link::after {
+                animation: none !important;
+                transition: none !important;
+            }
+        }
+    </style>
+</head>
+<body class="bg-light text-dark">
+    <!-- 滚动进度条 -->
+    <div id="scroll-progress" class="fixed top-0 left-0 h-0.5 bg-gradient-to-r from-blue-600 to-indigo-600 z-[70] w-0"></div>
+    <!-- 导航栏 -->
+    <nav id="navbar" class="fixed top-0 left-0 z-50">
+        <div class="container mx-auto px-4 py-3 flex justify-between items-center">
+            <a href="#" class="text-2xl font-bold text-primary">Craig</a>
+            
+            <!-- 桌面导航 -->
+            <div class="hidden md:flex space-x-8">
+                <a href="#home" class="nav-link active-nav">Home</a>
+                <a href="#about" class="nav-link">About Me</a>
+                <a href="#blog" class="nav-link">My Blog</a>
+                <a href="#gallery" class="nav-link">Gallery</a>
+                <a href="#contact" class="nav-link">Contact</a>
+                <a href="/study.html" class="nav-link study-nav-link font-bold">学习进度</a>
+            </div>
+            
+            <!-- 右侧: 主题切换 + 移动端汉堡菜单 -->
+            <div class="flex items-center gap-2">
+                <button id="theme-toggle" aria-label="切换暗色模式" class="theme-toggle w-10 h-10 rounded-full flex items-center justify-center text-dark hover:bg-gray-100 dark:text-slate-200 dark:hover:bg-slate-800 transition-colors">
+                    <svg class="w-5 h-5 hidden dark:block" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3a6 6 0 0 0 9 9 9 9 0 1 1-9-9Z"/></svg>
+                    <svg class="w-5 h-5 dark:hidden" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="4"/><path d="M12 2v2"/><path d="M12 20v2"/><path d="m4.93 4.93 1.41 1.41"/><path d="m17.66 17.66 1.41 1.41"/><path d="M2 12h2"/><path d="M20 12h2"/><path d="m6.34 17.66-1.41 1.41"/><path d="m19.07 4.93-1.41 1.41"/></svg>
+                </button>
+                <div class="md:hidden">
+                    <button id="menu-toggle" class="text-dark dark:text-slate-200 focus:outline-none">
+                        <svg fill="none" class="w-5 h-5 " viewBox="0 0 24 24" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><line x1="3" y1="6" x2="21" y2="6"/><line x1="3" y1="12" x2="21" y2="12"/><line x1="3" y1="18" x2="21" y2="18"/></svg>
+                    </button>
+                </div>
+            </div>
+        </div>
+    </nav>
+
+    <!-- 移动端导航菜单：必须放在 #navbar 之外，否则父级的 backdrop-filter 会让自身的模糊失效 -->
+    <div id="mobile-menu" class="md:hidden hidden">
+        <div class="container mx-auto px-4 py-3 flex flex-col space-y-3">
+            <a href="#home" class="mobile-nav-link py-2">Home</a>
+            <a href="#about" class="mobile-nav-link py-2">About Me</a>
+            <a href="#blog" class="mobile-nav-link py-2">My Blog</a>
+            <a href="#gallery" class="mobile-nav-link py-2">Gallery</a>
+            <a href="#contact" class="mobile-nav-link py-2">Contact</a>
+            <a href="/study.html" class="mobile-nav-link py-2 font-bold text-secondary">学习进度</a>
+            <button class="theme-toggle mobile-nav-link py-2 flex items-center gap-2 text-left" aria-label="切换主题">
+                <svg class="w-5 h-5 hidden dark:block" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3a6 6 0 0 0 9 9 9 9 0 1 1-9-9Z"/></svg>
+                <svg class="w-5 h-5 dark:hidden" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="4"/><path d="M12 2v2"/><path d="M12 20v2"/><path d="m4.93 4.93 1.41 1.41"/><path d="m17.66 17.66 1.41 1.41"/><path d="M2 12h2"/><path d="M20 12h2"/><path d="m6.34 17.66-1.41 1.41"/><path d="m19.07 4.93-1.41 1.41"/></svg>
+                <span>切换主题</span>
+            </button>
+        </div>
+    </div>
+
+    <!-- 首页/欢迎区域 -->
+    <section id="home" class="relative h-screen flex items-center justify-center overflow-hidden">
+        <!-- 背景图 -->
+        <div class="absolute inset-0 z-0">
+            <img src="/imgs/bkgnd.jpg" 
+                 alt="背景" 
+                 class="w-full h-full object-cover opacity-45">
+            <div id="hero-overlay" class="absolute inset-0 bg-gradient-to-b from-white/30 via-transparent to-white"></div>
+        </div>
+        
+        <!-- Three.js 背景 -->
+        <div id="three-bg" class="absolute inset-0 z-0 opacity-50"></div>
+        
+        <!-- 内容 -->
+        <div class="container mx-auto px-4 z-10 text-center" data-aos="fade-up" data-aos-duration="1000">
+            <div class="flex flex-col items-center">
+                <img src="/imgs/profile/profile.jpg" 
+                     alt="Craig" 
+                     class="w-40 h-40 rounded-full object-cover border-4 border-white shadow-lg mb-6">
+                <h1 class="text-4xl md:text-6xl font-bold mb-4 text-shadow">Craig</h1>
+                <div class="relative inline-block">
+                    <h2 id="typing-text" class="text-xl md:text-2xl font-semibold mb-6 typing-cursor overflow-hidden whitespace-nowrap"></h2>
+                </div>
+                <p class="text-lg md:text-xl max-w-2xl mb-8">
+                    尽我所能，敬我所不能
+                </p>
+                <div class="flex space-x-4 mb-8">
+                    <a href="https://github.com/lmy18280" target="_blank" class="w-10 h-10 rounded-full bg-dark text-white flex items-center justify-center hover:bg-primary transition-colors dark:bg-slate-800 dark:border dark:border-slate-600">
+                        <svg class="w-5 h-5 " viewBox="0 0 24 24" fill="currentColor" stroke="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 .297c-6.63 0-12 5.373-12 12 0 5.303 3.438 9.8 8.205 11.385.6.113.82-.258.82-.577 0-.285-.01-1.04-.015-2.04-3.338.724-4.042-1.61-4.042-1.61C4.422 18.07 3.633 17.7 3.633 17.7c-1.087-.744.084-.729.084-.729 1.205.084 1.838 1.236 1.838 1.236 1.07 1.835 2.809 1.305 3.495.998.108-.776.417-1.305.76-1.605-2.665-.3-5.466-1.332-5.466-5.93 0-1.31.465-2.38 1.235-3.22-.135-.303-.54-1.523.105-3.176 0 0 1.005-.322 3.3 1.23.96-.267 1.98-.399 3-.405 1.02.006 2.04.138 3 .405 2.28-1.552 3.285-1.23 3.285-1.23.645 1.653.24 2.873.12 3.176.765.84 1.23 1.91 1.23 3.22 0 4.61-2.805 5.625-5.475 5.92.42.36.81 1.096.81 2.22 0 1.606-.015 2.896-.015 3.286 0 .315.21.69.825.57C20.565 22.092 24 17.592 24 12.297c0-6.627-5.373-12-12-12"/></svg>
+                    </a>
+                    <a href="mailto:lmy1828000@outlook.com" class="w-10 h-10 rounded-full bg-dark text-white flex items-center justify-center hover:bg-primary transition-colors dark:bg-slate-800 dark:border dark:border-slate-600">
+                        <svg fill="none" class="w-5 h-5 " viewBox="0 0 24 24" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="2" y="4" width="20" height="16" rx="2"/><path d="m22 7-8.97 5.7a1.94 1.94 0 0 1-2.06 0L2 7"/></svg>
+                    </a>
+                    <a href="javascript:void(0)" onclick="openImageModal('/imgs/profile/wechatid.jpg')" class="w-10 h-10 rounded-full bg-dark text-white flex items-center justify-center hover:bg-primary transition-colors cursor-pointer dark:bg-slate-800 dark:border dark:border-slate-600">
+                        <svg class="w-5 h-5 " viewBox="0 0 24 24" fill="currentColor" stroke="none" aria-hidden="true"><path d="M8.691 2.188C3.891 2.188 0 5.476 0 9.53c0 2.212 1.17 4.203 3.002 5.55a.59.59 0 0 1 .213.665l-.39 1.48c-.019.07-.048.141-.048.213 0 .163.13.295.29.295a.326.326 0 0 0 .167-.054l1.903-1.114a.864.864 0 0 1 .717-.098 10.16 10.16 0 0 0 2.837.403c.276 0 .543-.027.811-.05-.857-2.578.157-4.972 1.932-6.446 1.703-1.415 3.882-1.98 5.853-1.838-.576-3.583-4.196-6.348-8.596-6.348zM5.785 5.991c.642 0 1.162.529 1.162 1.18a1.17 1.17 0 0 1-1.162 1.178A1.17 1.17 0 0 1 4.623 7.17c0-.651.52-1.18 1.162-1.18zm5.813 0c.642 0 1.162.529 1.162 1.18a1.17 1.17 0 0 1-1.162 1.178 1.17 1.17 0 0 1-1.162-1.178c0-.651.52-1.18 1.162-1.18zm5.34 2.867c-1.797-.052-3.746.512-5.28 1.786-1.72 1.428-2.687 3.72-1.78 6.22.942 2.453 3.666 4.229 6.884 4.229.826 0 1.622-.12 2.361-.336a.722.722 0 0 1 .598.082l1.584.926a.272.272 0 0 0 .14.047c.134 0 .24-.111.24-.247 0-.06-.023-.12-.038-.177l-.327-1.233a.582.582 0 0 1-.023-.156.49.49 0 0 1 .201-.398C23.024 18.48 24 16.82 24 14.98c0-3.21-2.931-5.837-6.656-6.088V8.89c-.135-.01-.27-.027-.407-.03zm-2.53 3.274c.535 0 .969.44.969.982a.976.976 0 0 1-.969.983.976.976 0 0 1-.969-.983c0-.542.434-.982.97-.982zm4.844 0c.535 0 .969.44.969.982a.976.976 0 0 1-.969.983.976.976 0 0 1-.969-.983c0-.542.434-.982.969-.982z"/></svg>
+                    </a>
+                    <a href="javascript:void(0)" onclick="openImageModal('/imgs/profile/qqid.jpg')" class="w-10 h-10 rounded-full bg-dark text-white flex items-center justify-center hover:bg-primary transition-colors cursor-pointer dark:bg-slate-800 dark:border dark:border-slate-600">
+                        <svg class="w-5 h-5 " viewBox="0 0 24 24" fill="currentColor" stroke="none" aria-hidden="true"><path d="M21.395 15.035a40 40 0 0 0-.803-2.264l-1.079-2.695c.001-.032.014-.562.014-.836C19.526 4.632 17.351 0 12 0S4.474 4.632 4.474 9.241c0 .274.013.804.014.836l-1.08 2.695a39 39 0 0 0-.802 2.264c-1.021 3.283-.69 4.643-.438 4.673.54.065 2.103-2.472 2.103-2.472 0 1.469.756 3.387 2.394 4.771-.612.188-1.363.479-1.845.835-.434.32-.379.646-.301.778.343.578 5.883.369 7.482.189 1.6.18 7.14.389 7.483-.189.078-.132.132-.458-.301-.778-.483-.356-1.233-.646-1.846-.836 1.637-1.384 2.393-3.302 2.393-4.771 0 0 1.563 2.537 2.103 2.472.251-.03.581-1.39-.438-4.673"/></svg>
+                    </a>
+                
+                </div>
+                <a href="#about" class="bg-primary hover:bg-blue-700 text-white font-bold py-3 px-6 rounded-full transition-colors shadow-lg">
+                    了解更多
+                </a>
+            </div>
+        </div>
+        
+        <!-- 向下滚动指示 -->
+        <div class="absolute bottom-10 left-1/2 transform -translate-x-1/2 animate-bounce">
+            <a href="#about" class="text-dark">
+                <svg fill="none" class="w-6 h-6 " viewBox="0 0 24 24" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m6 9 6 6 6-6"/></svg>
+            </a>
+        </div>
+    </section>
+
+    <!-- 关于我区域 -->
+    <section id="about" class="py-20 bg-white">
+        <div class="container mx-auto px-4">
+            <div class="text-center mb-16" data-aos="fade-up">
+                <h2 class="text-3xl md:text-4xl font-bold mb-4">About Me</h2>
+                <div class="w-24 h-1 bg-primary mx-auto"></div>
+                <p class="text-gray-500 mt-4">很高兴认识你</p>
+            </div>
+            
+            <!-- 个人签名 -->
+            <div class="text-center mb-16" data-aos="fade-up" data-aos-delay="100">
+                <div class="inline-block bg-gray-100 rounded-2xl p-8 max-w-2xl">
+                    <svg fill="none" class="w-9 h-9 text-primary opacity-50 float-left mr-4" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M16 3a2 2 0 0 0-2 2v6a2 2 0 0 0 2 2 1 1 0 0 1 1 1v1a2 2 0 0 1-2 2 1 1 0 0 0-1 1v2a1 1 0 0 0 1 1 6 6 0 0 0 6-6V5a2 2 0 0 0-2-2z"/><path d="M5 3a2 2 0 0 0-2 2v6a2 2 0 0 0 2 2 1 1 0 0 1 1 1v1a2 2 0 0 1-2 2 1 1 0 0 0-1 1v2a1 1 0 0 0 1 1 6 6 0 0 0 6-6V5a2 2 0 0 0-2-2z"/></svg>
+                    <p class="text-xl md:text-2xl text-gray-700 italic leading-relaxed">
+                        希望处决我的那天，很多人来看热闹，向我发出仇恨的叫喊声
+                    </p>
+                    <svg fill="none" class="w-9 h-9 text-primary opacity-50 float-right ml-4" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M16 3a2 2 0 0 0-2 2v6a2 2 0 0 0 2 2 1 1 0 0 1 1 1v1a2 2 0 0 1-2 2 1 1 0 0 0-1 1v2a1 1 0 0 0 1 1 6 6 0 0 0 6-6V5a2 2 0 0 0-2-2z"/><path d="M5 3a2 2 0 0 0-2 2v6a2 2 0 0 0 2 2 1 1 0 0 1 1 1v1a2 2 0 0 1-2 2 1 1 0 0 0-1 1v2a1 1 0 0 0 1 1 6 6 0 0 0 6-6V5a2 2 0 0 0-2-2z"/></svg>
+                </div>
+            </div>
+            
+            <!-- 喜欢的书影音 -->
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-8 mb-16">
+                <!-- 喜欢的书籍 -->
+                <div class="bg-gray-50 rounded-xl p-6 card-hover" data-aos="fade-up" data-aos-delay="200">
+                    <div class="flex items-center mb-4">
+                        <div class="w-12 h-12 bg-primary rounded-full flex items-center justify-center text-white mr-4">
+                            <svg fill="none" class="w-5 h-5 " viewBox="0 0 24 24" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 19.5v-15A2.5 2.5 0 0 1 6.5 2H20v20H6.5a2.5 2.5 0 0 1 0-5H20"/></svg>
+                        </div>
+                        <h3 class="text-xl font-semibold">Books</h3>
+                    </div>
+                    <ul class="space-y-3">
+                        <li class="flex items-start">
+                            <span class="text-primary mr-2">•</span>
+                            <span><strong>《闻雁集》</strong> - 张希</span>
+                        </li>
+                        <li class="flex items-start">
+                            <span class="text-primary mr-2">•</span>
+                            <span><strong>《被讨厌的勇气》</strong> - 岸见/古贺</span>
+                        </li>
+                        <li class="flex items-start">
+                            <span class="text-primary mr-2">•</span>
+                            <span><strong>《人类简史》</strong> - Yuval Noah Harari</span>
+                        </li>
+                        <li class="flex items-start">
+                            <span class="text-primary mr-2">•</span>
+                            <span><strong>《求是》杂志</strong> </span>
+                        </li>
+                    </ul>
+                </div>
+                
+                <!-- 喜欢的电影 -->
+                <div class="bg-gray-50 rounded-xl p-6 card-hover" data-aos="fade-up" data-aos-delay="300">
+                    <div class="flex items-center mb-4">
+                        <div class="w-12 h-12 bg-secondary rounded-full flex items-center justify-center text-white mr-4">
+                            <svg fill="none" class="w-5 h-5 " viewBox="0 0 24 24" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m22 8-6 4 6 4V8Z"/><rect width="14" height="12" x="2" y="6" rx="2" ry="2"/></svg>
+                        </div>
+                        <h3 class="text-xl font-semibold">Movies & Shows</h3>
+                    </div>
+                    <ul class="space-y-3">
+                        <li class="flex items-start">
+                            <span class="text-secondary mr-2">•</span>
+                            <span><strong>《Prometheus》</strong> - Ridley Scott</span>
+                        </li>
+                        <li class="flex items-start">
+                            <span class="text-secondary mr-2">•</span>
+                            <span><strong>《The Shawshank Redemption》</strong> - Frank Darabont</span>
+                        </li>
+                        <li class="flex items-start">
+                            <span class="text-secondary mr-2">•</span>
+                            <span><strong>《Stranger Things》</strong> - Duffle Bros</span>
+                        </li>
+                        <li class="flex items-start">
+                            <span class="text-secondary mr-2">•</span>
+                            <span><strong>《Oppenheimer》</strong> - Christopher Nolan</span>
+                        </li>
+                    </ul>
+                </div>
+                
+                <!-- 喜欢的音乐 -->
+                <div class="bg-gray-50 rounded-xl p-6 card-hover" data-aos="fade-up" data-aos-delay="400">
+                    <div class="flex items-center mb-4">
+                        <div class="w-12 h-12 bg-purple-500 rounded-full flex items-center justify-center text-white mr-4">
+                            <svg fill="none" class="w-5 h-5 " viewBox="0 0 24 24" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M9 18V5l12-2v13"/><circle cx="6" cy="18" r="3"/><circle cx="18" cy="16" r="3"/></svg>
+                        </div>
+                        <h3 class="text-xl font-semibold">Music</h3>
+                    </div>
+                    <p class="text-sm text-gray-500 mb-3">点击下方歌曲跳转至网易云音乐</p>
+                    <ul class="space-y-2">
+                        <li>
+                            <a href="https://music.163.com/#/song?id=3378698307" target="_blank" rel="noopener"
+                               class="flex items-center p-3 rounded-lg bg-white hover:bg-purple-50 border border-gray-100 hover:border-purple-200 transition-colors group">
+                                <svg fill="none" class="w-5 h-5 text-purple-500 mr-3" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M9 18V5l12-2v13"/><circle cx="6" cy="18" r="3"/><circle cx="18" cy="16" r="3"/></svg>
+                                <span class="text-gray-800 flex-1 truncate">主角 - 王菲</span>
+                                <span class="text-xs text-gray-400 group-hover:text-purple-500">
+                                    <svg fill="none" class="w-5 h-5 " viewBox="0 0 24 24" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M15 3h6v6"/><path d="M10 14 21 3"/><path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"/></svg>
+                                </span>
+                            </a>
+                        </li>
+                        <li>
+                            <a href="https://music.163.com/#/song?id=256621" target="_blank" rel="noopener"
+                               class="flex items-center p-3 rounded-lg bg-white hover:bg-purple-50 border border-gray-100 hover:border-purple-200 transition-colors group">
+                                <svg fill="none" class="w-5 h-5 text-purple-500 mr-3" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M9 18V5l12-2v13"/><circle cx="6" cy="18" r="3"/><circle cx="18" cy="16" r="3"/></svg>
+                                <span class="text-gray-800 flex-1 truncate">至少还有你 - 林忆莲</span>
+                                <span class="text-xs text-gray-400 group-hover:text-purple-500">
+                                    <svg fill="none" class="w-5 h-5 " viewBox="0 0 24 24" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M15 3h6v6"/><path d="M10 14 21 3"/><path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"/></svg>
+                                </span>
+                            </a>
+                        </li>
+                        <li>
+                            <a href="https://music.163.com/#/song?id=1420972635" target="_blank" rel="noopener"
+                               class="flex items-center p-3 rounded-lg bg-white hover:bg-purple-50 border border-gray-100 hover:border-purple-200 transition-colors group">
+                                <svg fill="none" class="w-5 h-5 text-purple-500 mr-3" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M9 18V5l12-2v13"/><circle cx="6" cy="18" r="3"/><circle cx="18" cy="16" r="3"/></svg>
+                                <span class="text-gray-800 flex-1 truncate">Come Around Me - Justin Bieber</span>
+                                <span class="text-xs text-gray-400 group-hover:text-purple-500">
+                                    <svg fill="none" class="w-5 h-5 " viewBox="0 0 24 24" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M15 3h6v6"/><path d="M10 14 21 3"/><path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"/></svg>
+                                </span>
+                            </a>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+            
+            <!-- 经历时间线 -->
+            <div class="mt-12" data-aos="fade-up" data-aos-delay="500">
+                <h3 class="text-2xl font-semibold mb-8 text-center">项目经历</h3>
+                
+                <!-- 移动端列表视图 -->
+                <div class="md:hidden space-y-6">
+                    <!-- 项目1 -->
+                    <div class="bg-white rounded-xl p-6 shadow-sm border border-gray-100">
+                        <h4 class="text-lg font-semibold text-gray-800">大学生工程实践与创新能力大赛</h4>
+                        <p class="text-primary font-medium mt-2">智能+（救援机器人）</p>
+                        <p class="text-gray-500 mt-1">2025 - 至今</p>
+                    </div>
+                    
+                    <!-- 项目2 -->
+                    <div class="bg-white rounded-xl p-6 shadow-sm border border-gray-100">
+                        <h4 class="text-lg font-semibold text-gray-800">吉林大学吉速电动方程式车队</h4>
+                        <p class="text-primary font-medium mt-2 cursor-pointer hover:text-blue-600 transition-colors flex items-center" onclick="openExperienceDetail('gspeed')">
+                            电气组 <svg fill="none" class="w-4 h-4 ml-2" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M15 3h6v6"/><path d="M10 14 21 3"/><path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"/></svg>
+                        </p>
+                        <p class="text-gray-500 mt-1">2024 - 2025</p>
+                        <p class="text-gray-600 mt-3 text-sm leading-relaxed">
+                            负责车队电气组的开发，包括电机控制、电池管理（BMS）、充电系统等。吉林大学学生车队作为全国汽车人才培养高地，为全国汽车行业的发展做出了卓越贡献。
+                        </p>
+                    </div>
+                    
+                    <!-- 项目3 -->
+                    <div class="bg-white rounded-xl p-6 shadow-sm border border-gray-100">
+                        <h4 class="text-lg font-semibold text-gray-800">吉林大学人工智能学院 课题组</h4>
+                        <p class="text-primary font-medium mt-2 cursor-pointer hover:text-blue-600 transition-colors flex items-center" onclick="openExperienceDetail('pneu')">
+                            基于类权重平衡的肺炎X线二分类算法模型 <svg fill="none" class="w-4 h-4 ml-2" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M15 3h6v6"/><path d="M10 14 21 3"/><path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"/></svg>
+                        </p>
+                        <p class="text-gray-500 mt-1">2025 - 至今</p>
+                        <p class="text-gray-600 mt-3 text-sm leading-relaxed">
+                            该项目旨在解决医生重复阅片的问题，通过引入类权重平衡技术，提高诊断准确率效率。该项目正在同吉林大学第一临床医学院合作优化。
+                        </p>
+                    </div>
+                </div>
+                
+                <!-- 桌面端时间轴视图 -->
+                <div class="hidden md:block relative">
+                    <!-- 时间线中轴 -->
+                    <div class="absolute left-1/2 transform -translate-x-1/2 h-full w-1 bg-gradient-to-b from-blue-100 via-blue-200 to-blue-100"></div>
+                    
+                    <!-- 时间线项目 -->
+                    <div class="space-y-16">
+                        <!-- 项目1 -->
+                        <div class="relative">
+                            <div class="absolute left-1/2 transform -translate-x-1/2 w-6 h-6 rounded-full bg-gradient-to-br from-blue-500 to-indigo-600 border-4 border-white shadow-md"></div>
+                            <div class="grid grid-cols-2 gap-8">
+                                <div class="text-right pr-12 pt-1">
+                                    <h4 class="text-xl font-semibold">大学生工程实践与创新能力大赛</h4>
+                                    <p class="text-primary font-medium mt-2">智能+（救援机器人）</p>
+                                    <p class="text-gray-500 mt-1">2025 - 至今</p>
+                                </div>
+                                <div class="pl-12"></div>
+                            </div>
+                        </div>
+                        
+                        <!-- 项目2 -->
+                        <div class="relative">
+                            <div class="absolute left-1/2 transform -translate-x-1/2 w-6 h-6 rounded-full bg-gradient-to-br from-blue-500 to-indigo-600 border-4 border-white shadow-md cursor-pointer hover:scale-125 transition-transform" onclick="openExperienceDetail('gspeed')"></div>
+                            <div class="grid grid-cols-2 gap-8">
+                                <div class="text-right pr-12 pt-1">
+                                    <p class="text-gray-600 leading-relaxed">
+                                        负责车队电气组的开发，包括电机控制、电池管理（BMS）、充电系统等。吉林大学学生车队作为全国汽车人才培养高地，为全国汽车行业的发展做出了卓越贡献。
+                                    </p>
+                                </div>
+                                <div class="pl-12 pt-1">
+                                    <h4 class="text-xl font-semibold">吉林大学吉速电动方程式车队</h4>
+                                    <p class="text-primary font-medium mt-2 cursor-pointer hover:text-blue-600 transition-colors flex items-center" onclick="openExperienceDetail('gspeed')">
+                                        电气组 <svg fill="none" class="w-4 h-4 ml-2" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M15 3h6v6"/><path d="M10 14 21 3"/><path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"/></svg>
+                                    </p>
+                                    <p class="text-gray-500 mt-1">2024 - 2025</p>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <!-- 项目3 -->
+                        <div class="relative">
+                            <div class="absolute left-1/2 transform -translate-x-1/2 w-6 h-6 rounded-full bg-gradient-to-br from-blue-500 to-indigo-600 border-4 border-white shadow-md cursor-pointer hover:scale-125 transition-transform" onclick="openExperienceDetail('pneu')"></div>
+                            <div class="grid grid-cols-2 gap-8">
+                                <div class="text-right pr-12 pt-1">
+                                    <h4 class="text-xl font-semibold">吉林大学人工智能学院 课题组</h4>
+                                    <p class="text-primary font-medium mt-2 cursor-pointer hover:text-blue-600 transition-colors flex items-center justify-end" onclick="openExperienceDetail('pneu')">
+                                        基于类权重平衡的肺炎X线二分类算法 <svg fill="none" class="w-4 h-4 ml-2" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M15 3h6v6"/><path d="M10 14 21 3"/><path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"/></svg>
+                                    </p>
+                                    <p class="text-gray-500 mt-1">2025 - 至今</p>
+                                </div>
+                                <div class="pl-12 pt-1">
+                                    <p class="text-gray-600 leading-relaxed">
+                                        该项目旨在解决医生重复阅片的难题。通过引入类权重平衡技术，提高诊断准确率效率。该项目正在同吉林大学第一临床医学院放射线科优化。
+                                    </p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+    
+    <!-- 博客区域 -->
+    <section id="blog" class="py-20 bg-gray-50">
+        <div class="container mx-auto px-4">
+            <div class="text-center mb-16" data-aos="fade-up">
+                <h2 class="text-3xl md:text-4xl font-bold mb-4">My Blog</h2>
+                <div class="w-24 h-1 bg-primary mx-auto"></div>
+                                <p class="text-gray-500 mt-4">欢迎来收听我的碎碎念~</p>
+                <a href="/blog.html" class="inline-block mt-6 px-6 py-2.5 bg-primary text-white rounded-full text-sm font-medium hover:bg-blue-700 transition-colors shadow-md hover:shadow-lg">
+                    显示所有 Blog
+                </a>
+
+            </div>
+            
+            <!-- 博客文章列表 -->
+            <div id="blog-list" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+                <!-- 文章卡片将通过JavaScript动态加载 -->
+                <div class="text-center text-gray-500 col-span-full py-12">
+                    <svg fill="none" class="w-9 h-9 mb-4 animate-spin" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M21 12a9 9 0 1 1-6.219-8.56"/></svg>
+                    <p>加载中...</p>
+                </div>
+            </div>
+        </div>
+    </section>
+    
+    <!-- 照片墙 -->
+    <section id="gallery" class="py-20 bg-white">
+        <div class="container mx-auto px-4">
+            <div class="text-center mb-16" data-aos="fade-up">
+                <h2 class="text-3xl md:text-4xl font-bold mb-4">Gallery</h2>
+                <div class="w-24 h-1 bg-primary mx-auto"></div>
+                <p class="text-gray-500 mt-4">旅途与生活的碎片</p>
+            </div>
+            
+            <!-- 照片网格：新增照片放入 imgs/gallery/ 并复制一行即可 -->
+            <div class="grid grid-cols-4 md:grid-cols-6 gap-1">
+                <div class="relative group rounded-xl overflow-hidden cursor-pointer aspect-square" onclick="openImageModal('/imgs/gallery/travel-01.jpg')" data-aos="fade-up">
+                    <img src="/imgs/gallery/travel-01.jpg" alt="旅途" loading="lazy" class="w-full h-full object-cover transition-transform duration-500 group-hover:scale-110">
+                    <div class="absolute inset-0 bg-gradient-to-t from-black/50 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex items-end justify-center">
+                        <span class="text-white text-sm font-medium pb-3">旅途</span>
+                    </div>
+                </div>
+                <div class="relative group rounded-xl overflow-hidden cursor-pointer aspect-square" onclick="openImageModal('/imgs/gallery/chaoyang.png')" data-aos="fade-up" data-aos-delay="150">
+                    <img src="/imgs/gallery/chaoyang.png" alt="碎片" loading="lazy" class="w-full h-full object-cover transition-transform duration-500 group-hover:scale-110">
+                    <div class="absolute inset-0 bg-gradient-to-t from-black/50 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex items-end justify-center">
+                        <span class="text-white text-sm font-medium pb-3">朝阳公园拍CBD</span>
+                    </div>
+                </div>
+                <div class="relative group rounded-xl overflow-hidden cursor-pointer aspect-square" onclick="openImageModal('/imgs/gallery/newyear.jpg')" data-aos="fade-up" data-aos-delay="150">
+                    <img src="/imgs/gallery/newyear.jpg" alt="碎片" loading="lazy" class="w-full h-full object-cover transition-transform duration-500 group-hover:scale-110">
+                    <div class="absolute inset-0 bg-gradient-to-t from-black/50 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex items-end justify-center">
+                        <span class="text-white text-sm font-medium pb-3">新年快乐</span>
+                    </div>
+                </div>
+                <div class="relative group rounded-xl overflow-hidden cursor-pointer aspect-square" onclick="openImageModal('/imgs/gallery/memory-01.jpg')" data-aos="fade-up" data-aos-delay="50">
+                    <img src="/imgs/gallery/memory-01.jpg" alt="假期" loading="lazy" class="w-full h-full object-cover transition-transform duration-500 group-hover:scale-110">
+                    <div class="absolute inset-0 bg-gradient-to-t from-black/50 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex items-end justify-center">
+                        <span class="text-white text-sm font-medium pb-3">假期</span>
+                    </div>
+                </div>
+                <div class="relative group rounded-xl overflow-hidden cursor-pointer aspect-square" onclick="openImageModal('/imgs/gallery/memory-02.jpg')" data-aos="fade-up" data-aos-delay="100">
+                    <img src="/imgs/gallery/memory-02.jpg" alt="日常" loading="lazy" class="w-full h-full object-cover transition-transform duration-500 group-hover:scale-110">
+                    <div class="absolute inset-0 bg-gradient-to-t from-black/50 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex items-end justify-center">
+                        <span class="text-white text-sm font-medium pb-3">日常</span>
+                    </div>
+                </div>
+                <div class="relative group rounded-xl overflow-hidden cursor-pointer aspect-square" onclick="openImageModal('/imgs/gallery/station.png')" data-aos="fade-up" data-aos-delay="150">
+                    <img src="/imgs/gallery/station.png" alt="碎片" loading="lazy" class="w-full h-full object-cover transition-transform duration-500 group-hover:scale-110">
+                    <div class="absolute inset-0 bg-gradient-to-t from-black/50 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex items-end justify-center">
+                        <span class="text-white text-sm font-medium pb-3">长春的秋天</span>
+                    </div>
+                </div>
+                <div class="relative group rounded-xl overflow-hidden cursor-pointer aspect-square" onclick="openImageModal('/imgs/gallery/memory-03.jpg')" data-aos="fade-up" data-aos-delay="150">
+                    <img src="/imgs/gallery/memory-03.jpg" alt="碎片" loading="lazy" class="w-full h-full object-cover transition-transform duration-500 group-hover:scale-110">
+                    <div class="absolute inset-0 bg-gradient-to-t from-black/50 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex items-end justify-center">
+                        <span class="text-white text-sm font-medium pb-3">碎片</span>
+                    </div>
+                </div>
+                <div class="relative group rounded-xl overflow-hidden cursor-pointer aspect-square" onclick="openImageModal('/imgs/gallery/mtchangbai.jpg')" data-aos="fade-up" data-aos-delay="150">
+                    <img src="/imgs/gallery/mtchangbai.jpg" alt="碎片" loading="lazy" class="w-full h-full object-cover transition-transform duration-500 group-hover:scale-110">
+                    <div class="absolute inset-0 bg-gradient-to-t from-black/50 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex items-end justify-center">
+                        <span class="text-white text-sm font-medium pb-3">长白山</span>
+                    </div>
+                </div>
+
+                <div class="relative group rounded-xl overflow-hidden cursor-pointer aspect-square" onclick="openImageModal('/imgs/gallery/nanhu.jpg')" data-aos="fade-up" data-aos-delay="150">
+                    <img src="/imgs/gallery/nanhu.jpg" alt="碎片" loading="lazy" class="w-full h-full object-cover transition-transform duration-500 group-hover:scale-110">
+                    <div class="absolute inset-0 bg-gradient-to-t from-black/50 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex items-end justify-center">
+                        <span class="text-white text-sm font-medium pb-3">南湖</span>
+                    </div>
+                </div>
+                <div class="relative group rounded-xl overflow-hidden cursor-pointer aspect-square" onclick="openImageModal('/imgs/gallery/love.jpg')" data-aos="fade-up" data-aos-delay="150">
+                    <img src="/imgs/gallery/love.jpg" alt="碎片" loading="lazy" class="w-full h-full object-cover transition-transform duration-500 group-hover:scale-110">
+                    <div class="absolute inset-0 bg-gradient-to-t from-black/50 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex items-end justify-center">
+                        <span class="text-white text-sm font-medium pb-3">我不配拥有的东西</span>
+                    </div>
+                </div>
+                <div class="relative group rounded-xl overflow-hidden cursor-pointer aspect-square" onclick="openImageModal('/imgs/gallery/ielts.png')" data-aos="fade-up" data-aos-delay="150">
+                    <img src="/imgs/gallery/ielts.png" alt="碎片" loading="lazy" class="w-full h-full object-cover transition-transform duration-500 group-hover:scale-110">
+                    <div class="absolute inset-0 bg-gradient-to-t from-black/50 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex items-end justify-center">
+                        <span class="text-white text-sm font-medium pb-3">IELTS</span>
+                    </div>
+                </div>
+                <div class="relative group rounded-xl overflow-hidden cursor-pointer aspect-square" onclick="openImageModal('/imgs/gallery/gspeed2.png')" data-aos="fade-up" data-aos-delay="150">
+                    <img src="/imgs/gallery/gspeed2.png" alt="碎片" loading="lazy" class="w-full h-full object-cover transition-transform duration-500 group-hover:scale-110">
+                    <div class="absolute inset-0 bg-gradient-to-t from-black/50 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex items-end justify-center">
+                        <span class="text-white text-sm font-medium pb-3">百万级别的车</span>
+                    </div>
+                </div>
+                <div class="relative group rounded-xl overflow-hidden cursor-pointer aspect-square" onclick="openImageModal('/imgs/gallery/autumn.png')" data-aos="fade-up" data-aos-delay="150">
+                    <img src="/imgs/gallery/autumn.png" alt="碎片" loading="lazy" class="w-full h-full object-cover transition-transform duration-500 group-hover:scale-110">
+                    <div class="absolute inset-0 bg-gradient-to-t from-black/50 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex items-end justify-center">
+                        <span class="text-white text-sm font-medium pb-3">长春的秋天</span>
+                    </div>
+                </div>
+
+                <div class="relative group rounded-xl overflow-hidden cursor-pointer aspect-square" onclick="openImageModal('/imgs/gallery/lize.png')" data-aos="fade-up" data-aos-delay="150">
+                    <img src="/imgs/gallery/lize.png" alt="碎片" loading="lazy" class="w-full h-full object-cover transition-transform duration-500 group-hover:scale-110">
+                    <div class="absolute inset-0 bg-gradient-to-t from-black/50 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex items-end justify-center">
+                        <span class="text-white text-sm font-medium pb-3">人类蜂巢</span>
+                    </div>
+                </div>
+                <div class="relative group rounded-xl overflow-hidden cursor-pointer aspect-square" onclick="openImageModal('/imgs/gallery/nanling.png')" data-aos="fade-up" data-aos-delay="150">
+                    <img src="/imgs/gallery/nanling.png" alt="碎片" loading="lazy" class="w-full h-full object-cover transition-transform duration-500 group-hover:scale-110">
+                    <div class="absolute inset-0 bg-gradient-to-t from-black/50 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex items-end justify-center">
+                        <span class="text-white text-sm font-medium pb-3">南岭的夕阳</span>
+                    </div>
+                </div>
+                <div class="relative group rounded-xl overflow-hidden cursor-pointer aspect-square" onclick="openImageModal('/imgs/gallery/chuchai.png')" data-aos="fade-up" data-aos-delay="150">
+                    <img src="/imgs/gallery/chuchai.png" alt="碎片" loading="lazy" class="w-full h-full object-cover transition-transform duration-500 group-hover:scale-110">
+                    <div class="absolute inset-0 bg-gradient-to-t from-black/50 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex items-end justify-center">
+                        <span class="text-white text-sm font-medium pb-3">出差ing</span>
+                    </div>
+                </div>
+                <div class="relative group rounded-xl overflow-hidden cursor-pointer aspect-square" onclick="openImageModal('/imgs/gallery/shenyang.png')" data-aos="fade-up" data-aos-delay="150">
+                    <img src="/imgs/gallery/shenyang.png" alt="碎片" loading="lazy" class="w-full h-full object-cover transition-transform duration-500 group-hover:scale-110">
+                    <div class="absolute inset-0 bg-gradient-to-t from-black/50 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex items-end justify-center">
+                        <span class="text-white text-sm font-medium pb-3">盛京大钻石</span>
+                    </div>
+                </div>
+                <div class="relative group rounded-xl overflow-hidden cursor-pointer aspect-square" onclick="openImageModal('/imgs/gallery/temple.png')" data-aos="fade-up" data-aos-delay="150">
+                    <img src="/imgs/gallery/temple.png" alt="碎片" loading="lazy" class="w-full h-full object-cover transition-transform duration-500 group-hover:scale-110">
+                    <div class="absolute inset-0 bg-gradient-to-t from-black/50 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex items-end justify-center">
+                        <span class="text-white text-sm font-medium pb-3">在上学和上班之间选择了上香</span>
+                    </div>
+                </div>
+                <div class="relative group rounded-xl overflow-hidden cursor-pointer aspect-square" onclick="openImageModal('/imgs/gallery/bj.png')" data-aos="fade-up" data-aos-delay="150">
+                    <img src="/imgs/gallery/bj.png" alt="碎片" loading="lazy" class="w-full h-full object-cover transition-transform duration-500 group-hover:scale-110">
+                    <div class="absolute inset-0 bg-gradient-to-t from-black/50 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex items-end justify-center">
+                        <span class="text-white text-sm font-medium pb-3">南山南</span>
+                    </div>
+                </div>
+                <div class="relative group rounded-xl overflow-hidden cursor-pointer aspect-square" onclick="openImageModal('/imgs/gallery/duck.png')" data-aos="fade-up" data-aos-delay="150">
+                    <img src="/imgs/gallery/duck.png" alt="碎片" loading="lazy" class="w-full h-full object-cover transition-transform duration-500 group-hover:scale-110">
+                    <div class="absolute inset-0 bg-gradient-to-t from-black/50 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex items-end justify-center">
+                        <span class="text-white text-sm font-medium pb-3">咕咕嘎嘎</span>
+                    </div>
+                </div>
+                <div class="relative group rounded-xl overflow-hidden cursor-pointer aspect-square" onclick="openImageModal('/imgs/gallery/filmlike.png')" data-aos="fade-up" data-aos-delay="150">
+                    <img src="/imgs/gallery/filmlike.png" alt="碎片" loading="lazy" class="w-full h-full object-cover transition-transform duration-500 group-hover:scale-110">
+                    <div class="absolute inset-0 bg-gradient-to-t from-black/50 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex items-end justify-center">
+                        <span class="text-white text-sm font-medium pb-3">25号底片</span>
+                    </div>
+                </div>
+                <div class="relative group rounded-xl overflow-hidden cursor-pointer aspect-square" onclick="openImageModal('/imgs/gallery/guomao.png')" data-aos="fade-up" data-aos-delay="150">
+                    <img src="/imgs/gallery/guomao.png" alt="碎片" loading="lazy" class="w-full h-full object-cover transition-transform duration-500 group-hover:scale-110">
+                    <div class="absolute inset-0 bg-gradient-to-t from-black/50 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex items-end justify-center">
+                        <span class="text-white text-sm font-medium pb-3">人生照片</span>
+                    </div>
+                </div>
+                <div class="relative group rounded-xl overflow-hidden cursor-pointer aspect-square" onclick="openImageModal('/imgs/gallery/jingyue.png')" data-aos="fade-up" data-aos-delay="150">
+                    <img src="/imgs/gallery/jingyue.png" alt="碎片" loading="lazy" class="w-full h-full object-cover transition-transform duration-500 group-hover:scale-110">
+                    <div class="absolute inset-0 bg-gradient-to-t from-black/50 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex items-end justify-center">
+                        <span class="text-white text-sm font-medium pb-3">枯藤老树</span>
+                    </div>
+                </div>
+                <div class="relative group rounded-xl overflow-hidden cursor-pointer aspect-square" onclick="openImageModal('/imgs/gallery/shenyangstat.png')" data-aos="fade-up" data-aos-delay="150">
+                    <img src="/imgs/gallery/shenyangstat.png" alt="碎片" loading="lazy" class="w-full h-full object-cover transition-transform duration-500 group-hover:scale-110">
+                    <div class="absolute inset-0 bg-gradient-to-t from-black/50 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex items-end justify-center">
+                        <span class="text-white text-sm font-medium pb-3">为人民</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+    
+    <!-- 联系区域 -->
+    <section id="contact" class="py-20 bg-white">
+        <div class="container mx-auto px-4">
+            <div class="text-center mb-16" data-aos="fade-up">
+                <h2 class="text-3xl md:text-4xl font-bold mb-4">Contact</h2>
+                <div class="w-24 h-1 bg-primary mx-auto"></div>
+                <p class="text-gray-500 mt-4">随时随地，欢迎Call Me~</p>
+            </div>
+            
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-12 max-w-4xl mx-auto">
+                <!-- 联系方式 -->
+                <div data-aos="fade-up">
+                    <h3 class="text-xl font-semibold mb-6">联系方式</h3>
+                    <div class="space-y-4">
+                        <div class="flex items-center">
+                            <div class="w-12 h-12 bg-primary rounded-full flex items-center justify-center text-white mr-4">
+                                <svg fill="none" class="w-5 h-5 " viewBox="0 0 24 24" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="2" y="4" width="20" height="16" rx="2"/><path d="m22 7-8.97 5.7a1.94 1.94 0 0 1-2.06 0L2 7"/></svg>
+                            </div>
+                            <div>
+                                <p class="text-gray-600 text-sm">邮箱</p>
+                                <a href="mailto:lmy1828000@outlook.com" class="text-dark hover:text-primary transition-colors">
+                                    lmy1828000@outlook.com
+                                </a>
+                            </div>
+                        </div>
+                        <div class="flex items-center">
+                            <div class="w-12 h-12 bg-primary rounded-full flex items-center justify-center text-white mr-4">
+                                <svg fill="none" class="w-5 h-5 " viewBox="0 0 24 24" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M20 10c0 6-8 12-8 12s-8-6-8-12a8 8 0 0 1 16 0Z"/><circle cx="12" cy="10" r="3"/></svg>
+                            </div>
+                            <div>
+                                <p class="text-gray-600 text-sm">地址</p>
+                                <span class="text-dark">人民大街3388号，南关区，长春，中国</span>
+                            </div>
+                        </div>
+                        <div class="flex items-center">
+                            <div class="w-12 h-12 bg-primary rounded-full flex items-center justify-center text-white mr-4">
+                                <svg class="w-5 h-5 " viewBox="0 0 24 24" fill="currentColor" stroke="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 .297c-6.63 0-12 5.373-12 12 0 5.303 3.438 9.8 8.205 11.385.6.113.82-.258.82-.577 0-.285-.01-1.04-.015-2.04-3.338.724-4.042-1.61-4.042-1.61C4.422 18.07 3.633 17.7 3.633 17.7c-1.087-.744.084-.729.084-.729 1.205.084 1.838 1.236 1.838 1.236 1.07 1.835 2.809 1.305 3.495.998.108-.776.417-1.305.76-1.605-2.665-.3-5.466-1.332-5.466-5.93 0-1.31.465-2.38 1.235-3.22-.135-.303-.54-1.523.105-3.176 0 0 1.005-.322 3.3 1.23.96-.267 1.98-.399 3-.405 1.02.006 2.04.138 3 .405 2.28-1.552 3.285-1.23 3.285-1.23.645 1.653.24 2.873.12 3.176.765.84 1.23 1.91 1.23 3.22 0 4.61-2.805 5.625-5.475 5.92.42.36.81 1.096.81 2.22 0 1.606-.015 2.896-.015 3.286 0 .315.21.69.825.57C20.565 22.092 24 17.592 24 12.297c0-6.627-5.373-12-12-12"/></svg>
+                            </div>
+                            <div>
+                                <p class="text-gray-600 text-sm">GitHub</p>
+                                <a href="https://github.com/lmy18280" target="_blank" class="text-dark hover:text-primary transition-colors">
+                                    github.com/lmy18280
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- 社交链接 -->
+                <div data-aos="fade-up" data-aos-delay="100">
+                    <h3 class="text-xl font-semibold mb-6">社交媒体</h3>
+                    <div class="grid grid-cols-2 gap-4">
+                        <a href="https://github.com/lmy18280" target="_blank" class="bg-gray-50 rounded-xl p-4 flex flex-col items-center justify-center hover:bg-primary hover:text-white transition-all card-hover">
+                            <svg class="w-8 h-8 mb-2" viewBox="0 0 24 24" fill="currentColor" stroke="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 .297c-6.63 0-12 5.373-12 12 0 5.303 3.438 9.8 8.205 11.385.6.113.82-.258.82-.577 0-.285-.01-1.04-.015-2.04-3.338.724-4.042-1.61-4.042-1.61C4.422 18.07 3.633 17.7 3.633 17.7c-1.087-.744.084-.729.084-.729 1.205.084 1.838 1.236 1.838 1.236 1.07 1.835 2.809 1.305 3.495.998.108-.776.417-1.305.76-1.605-2.665-.3-5.466-1.332-5.466-5.93 0-1.31.465-2.38 1.235-3.22-.135-.303-.54-1.523.105-3.176 0 0 1.005-.322 3.3 1.23.96-.267 1.98-.399 3-.405 1.02.006 2.04.138 3 .405 2.28-1.552 3.285-1.23 3.285-1.23.645 1.653.24 2.873.12 3.176.765.84 1.23 1.91 1.23 3.22 0 4.61-2.805 5.625-5.475 5.92.42.36.81 1.096.81 2.22 0 1.606-.015 2.896-.015 3.286 0 .315.21.69.825.57C20.565 22.092 24 17.592 24 12.297c0-6.627-5.373-12-12-12"/></svg>
+                            <span class="text-sm">GitHub</span>
+                        </a>
+                        <a href="javascript:void(0)" onclick="openImageModal('/imgs/profile/wechatid.jpg')" class="bg-gray-50 rounded-xl p-4 flex flex-col items-center justify-center hover:bg-green-500 hover:text-white transition-all card-hover cursor-pointer">
+                            <svg class="w-8 h-8 mb-2" viewBox="0 0 24 24" fill="currentColor" stroke="none" aria-hidden="true"><path d="M8.691 2.188C3.891 2.188 0 5.476 0 9.53c0 2.212 1.17 4.203 3.002 5.55a.59.59 0 0 1 .213.665l-.39 1.48c-.019.07-.048.141-.048.213 0 .163.13.295.29.295a.326.326 0 0 0 .167-.054l1.903-1.114a.864.864 0 0 1 .717-.098 10.16 10.16 0 0 0 2.837.403c.276 0 .543-.027.811-.05-.857-2.578.157-4.972 1.932-6.446 1.703-1.415 3.882-1.98 5.853-1.838-.576-3.583-4.196-6.348-8.596-6.348zM5.785 5.991c.642 0 1.162.529 1.162 1.18a1.17 1.17 0 0 1-1.162 1.178A1.17 1.17 0 0 1 4.623 7.17c0-.651.52-1.18 1.162-1.18zm5.813 0c.642 0 1.162.529 1.162 1.18a1.17 1.17 0 0 1-1.162 1.178 1.17 1.17 0 0 1-1.162-1.178c0-.651.52-1.18 1.162-1.18zm5.34 2.867c-1.797-.052-3.746.512-5.28 1.786-1.72 1.428-2.687 3.72-1.78 6.22.942 2.453 3.666 4.229 6.884 4.229.826 0 1.622-.12 2.361-.336a.722.722 0 0 1 .598.082l1.584.926a.272.272 0 0 0 .14.047c.134 0 .24-.111.24-.247 0-.06-.023-.12-.038-.177l-.327-1.233a.582.582 0 0 1-.023-.156.49.49 0 0 1 .201-.398C23.024 18.48 24 16.82 24 14.98c0-3.21-2.931-5.837-6.656-6.088V8.89c-.135-.01-.27-.027-.407-.03zm-2.53 3.274c.535 0 .969.44.969.982a.976.976 0 0 1-.969.983.976.976 0 0 1-.969-.983c0-.542.434-.982.97-.982zm4.844 0c.535 0 .969.44.969.982a.976.976 0 0 1-.969.983.976.976 0 0 1-.969-.983c0-.542.434-.982.969-.982z"/></svg>
+                            <span class="text-sm">微信</span>
+                        </a>
+                        <a href="javascript:void(0)" onclick="openImageModal('/imgs/profile/qqid.jpg')" class="bg-gray-50 rounded-xl p-4 flex flex-col items-center justify-center hover:bg-blue-500 hover:text-white transition-all card-hover cursor-pointer">
+                            <svg class="w-8 h-8 mb-2" viewBox="0 0 24 24" fill="currentColor" stroke="none" aria-hidden="true"><path d="M21.395 15.035a40 40 0 0 0-.803-2.264l-1.079-2.695c.001-.032.014-.562.014-.836C19.526 4.632 17.351 0 12 0S4.474 4.632 4.474 9.241c0 .274.013.804.014.836l-1.08 2.695a39 39 0 0 0-.802 2.264c-1.021 3.283-.69 4.643-.438 4.673.54.065 2.103-2.472 2.103-2.472 0 1.469.756 3.387 2.394 4.771-.612.188-1.363.479-1.845.835-.434.32-.379.646-.301.778.343.578 5.883.369 7.482.189 1.6.18 7.14.389 7.483-.189.078-.132.132-.458-.301-.778-.483-.356-1.233-.646-1.846-.836 1.637-1.384 2.393-3.302 2.393-4.771 0 0 1.563 2.537 2.103 2.472.251-.03.581-1.39-.438-4.673"/></svg>
+                            <span class="text-sm">QQ</span>
+                        </a>
+                        <a href="mailto:lmy1828000@outlook.com" class="bg-gray-50 rounded-xl p-4 flex flex-col items-center justify-center hover:bg-red-500 hover:text-white transition-all card-hover">
+                            <svg fill="none" class="w-8 h-8 mb-2" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="2" y="4" width="20" height="16" rx="2"/><path d="m22 7-8.97 5.7a1.94 1.94 0 0 1-2.06 0L2 7"/></svg>
+                            <span class="text-sm">邮件</span>
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+    
+    <!-- 文章详情模态框 -->
+    <div id="article-modal" class="fixed inset-0 z-50 flex items-center justify-center hidden">
+        <div class="absolute inset-0 bg-black bg-opacity-75" id="article-modal-overlay"></div>
+        <div class="relative bg-white rounded-lg max-w-4xl w-full max-h-[90vh] overflow-y-auto mx-4 z-10">
+            <button id="close-article-modal" class="absolute top-4 right-4 text-gray-500 hover:text-gray-700 focus:outline-none z-20">
+                <svg fill="none" class="w-6 h-6 " viewBox="0 0 24 24" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M18 6 6 18"/><path d="m6 6 12 12"/></svg>
+            </button>
+            <div id="article-modal-content" class="p-6">
+                <!-- 文章内容将通过JavaScript填充 -->
+            </div>
+        </div>
+    </div>
+    
+    <!-- 页脚 -->
+    <footer class="bg-dark text-white py-12">
+        <div class="container mx-auto px-4">
+            <div class="grid grid-cols-1 md:grid-cols-4 gap-8">
+                <!-- 个人信息 -->
+                <div>
+                    <h3 class="text-xl font-semibold mb-4">Craig</h3>
+                    <p class="text-gray-400 mb-4">
+                        希望处决我的那天，很多人来看热闹，向我发出仇恨的叫喊声
+                    </p>
+                </div>
+                
+                <!-- 快速链接 -->
+                <div>
+                    <h3 class="text-xl font-semibold mb-4">快速链接</h3>
+                    <ul class="space-y-2">
+                        <li><a href="#home" class="text-gray-400 hover:text-white transition-colors">Home</a></li>
+                        <li><a href="#about" class="text-gray-400 hover:text-white transition-colors">About Me</a></li>
+                        <li><a href="#blog" class="text-gray-400 hover:text-white transition-colors">My Blog</a></li>
+                        <li><a href="#gallery" class="text-gray-400 hover:text-white transition-colors">Gallery</a></li>
+                        <li><a href="#contact" class="text-gray-400 hover:text-white transition-colors">Contact</a></li>
+                        <li><a href="/study.html" class="text-gray-400 hover:text-white transition-colors">学习进度</a></li>
+
+                    </ul>
+                </div>
+                
+                <!-- 联系方式 -->
+                <div>
+                    <h3 class="text-xl font-semibold mb-4">联系方式</h3>
+                    <ul class="space-y-2">
+                        <li class="flex items-center">
+                            <svg fill="none" class="w-5 h-5 mr-2 text-gray-400" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="2" y="4" width="20" height="16" rx="2"/><path d="m22 7-8.97 5.7a1.94 1.94 0 0 1-2.06 0L2 7"/></svg>
+                            <a href="mailto:lmy1828000@outlook.com" class="text-gray-400 hover:text-white transition-colors">lmy1828000@outlook.com</a>
+                        </li>
+                        <li class="flex items-center">
+                            <svg fill="none" class="w-5 h-5 mr-2 text-gray-400" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M20 10c0 6-8 12-8 12s-8-6-8-12a8 8 0 0 1 16 0Z"/><circle cx="12" cy="10" r="3"/></svg>
+                            <span class="text-gray-400">人民大街3388号，南关区，长春，中国</span>
+                        </li>
+                    </ul>
+                </div>
+                
+            </div>
+            
+            <div class="border-t border-gray-800 mt-12 pt-8 text-center">
+                <p class="text-gray-400">
+                    &copy; 2026 Craig All Rights Reserved<br>尽我所能，敬我所不能<br>
+                    <span class="text-sm">本站访问量 <span id="busuanzi_value_site_pv">-</span> 次</span><br>
+                    <span class="text-sm">考研初试（28届）还剩 <span id="exam-countdown-days">-</span> 天</span>                
+                </p>
+            </div>
+        </div>
+    </footer>
+
+    <!-- 访问统计  -->
+    <script async src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+
+    <!-- 考研初试倒计时（目标日：2027-12-18） -->
+    <script>
+        (function() {
+            var TARGET = new Date('2027-12-18T00:00:00+08:00');
+            function updateExamCountdown() {
+                var el = document.getElementById('exam-countdown-days');
+                if (!el) return;
+                var diff = TARGET.getTime() - Date.now();
+                var days = diff > 0 ? Math.ceil(diff / 86400000) : 0;
+                el.textContent = days;
+            }
+            updateExamCountdown();
+            setInterval(updateExamCountdown, 60000);
+        })();
+
+    </script>
+    <!-- 项目详情模态框 -->
+    <div id="project-modal" class="fixed inset-0 z-50 flex items-center justify-center hidden">
+        <div class="absolute inset-0 bg-black bg-opacity-75" id="modal-overlay"></div>
+        <div class="relative bg-white rounded-lg max-w-4xl w-full max-h-[90vh] overflow-y-auto mx-4 z-10">
+            <button id="close-modal" class="absolute top-4 right-4 text-gray-500 hover:text-gray-700 focus:outline-none">
+                <svg fill="none" class="w-6 h-6 " viewBox="0 0 24 24" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M18 6 6 18"/><path d="m6 6 12 12"/></svg>
+            </button>
+            <div id="modal-content" class="p-6">
+                <!-- 动态内容将通过JavaScript填充 -->
+            </div>
+        </div>
+    </div>
+    
+    <!-- 图片预览模态框 -->
+    <div id="image-modal" class="fixed inset-0 z-50 flex items-center justify-center hidden">
+        <div class="absolute inset-0 bg-black bg-opacity-60" onclick="closeImageModal()"></div>
+        <div class="relative z-10 max-w-4xl max-h-[90vh] mx-4">
+            <button onclick="event.stopPropagation(); closeImageModal()" class="absolute top-4 right-4 z-20 w-10 h-10 rounded-full bg-black/50 backdrop-blur-sm flex items-center justify-center text-white hover:bg-black/70 hover:text-gray-200 focus:outline-none transition-colors">
+                <svg fill="none" class="w-6 h-6 " viewBox="0 0 24 24" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M18 6 6 18"/><path d="m6 6 12 12"/></svg>
+            </button>
+            <img id="modal-image" src="" alt="图片预览" class="max-w-full max-h-[90vh] rounded-lg shadow-2xl">
+        </div>
+    </div>
+    
+    <!-- 返回顶部 -->
+    <button id="back-to-top" aria-label="返回顶部" class="fixed bottom-6 right-6 w-11 h-11 rounded-full bg-primary text-white shadow-lg flex items-center justify-center opacity-0 pointer-events-none transition-all duration-300 hover:bg-blue-700 z-50">
+        <svg class="w-5 h-5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m18 15-6-6-6 6"/></svg>
+    </button>
+    
+    <!-- JavaScript -->
+    <script>
+        // 初始化AOS动画库
+        document.addEventListener('DOMContentLoaded', function() {
+            AOS.init({
+                duration: 800,
+                easing: 'ease-in-out',
+                once: true
+            });
+            
+            // 初始化Three.js背景
+            initThreeBackground();
+            
+            // 初始化打字效果
+            initTypingEffect();
+            
+            // 初始化导航栏滚动效果
+            initNavbarScroll();
+            
+            // 初始化滚动进度条 / 返回顶部 / 暗色模式
+            initScrollProgress();
+            initBackToTop();
+            initDarkMode();
+            
+            // 初始化移动端菜单
+            initMobileMenu();
+            
+            // 初始化文章模态框
+            initArticleModal();
+
+            // 初始化平滑滚动
+            initSmoothScroll();
+            
+            // 检查 hash 自动打开文章
+            checkHashAndOpenArticle();
+        });
+        
+        // 图片预览模态框
+        function openImageModal(src) {
+            const modal = document.getElementById('image-modal');
+            const img = document.getElementById('modal-image');
+            img.src = src;
+            modal.classList.remove('hidden');
+            animateModalOpen(modal);
+            document.body.style.overflow = 'hidden';
+        }
+        
+        function closeImageModal() {
+            const modal = document.getElementById('image-modal');
+            modal.classList.add('hidden');
+            document.body.style.overflow = '';
+        }
+        
+        // Three.js背景
+        function initThreeBackground() {
+            const container = document.getElementById('three-bg');
+            
+            // 创建场景
+            const scene = new THREE.Scene();
+            
+            // 创建相机
+            const camera = new THREE.PerspectiveCamera(75, window.innerWidth / window.innerHeight, 0.1, 1000);
+            camera.position.z = 5;
+            
+            // 创建渲染器
+            const renderer = new THREE.WebGLRenderer({ alpha: true });
+            renderer.setSize(window.innerWidth, window.innerHeight);
+            renderer.setClearColor(0x000000, 0);
+            container.appendChild(renderer.domElement);
+            
+            // 创建粒子
+            const particlesGeometry = new THREE.BufferGeometry();
+            const particlesCount = 1500;
+            
+            const posArray = new Float32Array(particlesCount * 3);
+            
+            for(let i = 0; i < particlesCount * 3; i++) {
+                posArray[i] = (Math.random() - 0.5) * 10;
+            }
+            
+            particlesGeometry.setAttribute('position', new THREE.BufferAttribute(posArray, 3));
+            
+            // 创建材质
+            const particlesMaterial = new THREE.PointsMaterial({
+                size: 0.02,
+                color: 0x2563EB,
+                transparent: true,
+                opacity: 0.8
+            });
+            
+            // 创建粒子系统
+            const particlesMesh = new THREE.Points(particlesGeometry, particlesMaterial);
+            scene.add(particlesMesh);
+            
+            // 动画循环
+            function animate() {
+                requestAnimationFrame(animate);
+                
+                particlesMesh.rotation.y += 0.001;
+                particlesMesh.rotation.x += 0.0005;
+                
+                renderer.render(scene, camera);
+            }
+            
+            animate();
+            
+            // 响应窗口大小变化
+            window.addEventListener('resize', () => {
+                camera.aspect = window.innerWidth / window.innerHeight;
+                camera.updateProjectionMatrix();
+                renderer.setSize(window.innerWidth, window.innerHeight);
+            });
+        }
+        
+        // 打字效果
+        function initTypingEffect() {
+            const texts = [
+                "408真好，推荐大家考",
+                "吉速退役修车匠",
+                "AAA平面设计",
+                "学雅思学疯了",
+                "转码中"
+            ];
+            
+            const typingElement = document.getElementById('typing-text');
+            let textIndex = 0;
+            let charIndex = 0;
+            let isDeleting = false;
+            
+            function type() {
+                const currentText = texts[textIndex];
+                
+                if (isDeleting) {
+                    typingElement.textContent = currentText.substring(0, charIndex - 1);
+                    charIndex--;
+                } else {
+                    typingElement.textContent = currentText.substring(0, charIndex + 1);
+                    charIndex++;
+                }
+                
+                if (!isDeleting && charIndex === currentText.length) {
+                    isDeleting = true;
+                    setTimeout(type, 1500);
+                } else if (isDeleting && charIndex === 0) {
+                    isDeleting = false;
+                    textIndex = (textIndex + 1) % texts.length;
+                    setTimeout(type, 500);
+                } else {
+                    setTimeout(type, isDeleting ? 50 : 100);
+                }
+            }
+            
+            type();
+        }
+        
+        // 导航栏滚动效果
+        function initNavbarScroll() {
+            const navbar = document.getElementById('navbar');
+            const navLinks = document.querySelectorAll('.nav-link');
+            const sections = document.querySelectorAll('section');
+            
+            window.addEventListener('scroll', () => {
+                // 导航栏背景透明度
+                if (window.scrollY > 50) {
+                    navbar.classList.add('py-2', 'nav-scrolled');
+                    navbar.classList.remove('py-3');
+                } else {
+                    navbar.classList.add('py-3');
+                    navbar.classList.remove('py-2', 'nav-scrolled');
+                }
+                
+                // 高亮当前部分的导航链接
+                let current = '';
+                
+                sections.forEach(section => {
+                    const sectionTop = section.offsetTop;
+                    const sectionHeight = section.clientHeight;
+                    
+                    if (window.scrollY >= (sectionTop - sectionHeight / 3)) {
+                        current = section.getAttribute('id');
+                    }
+                });
+                
+                navLinks.forEach(link => {
+                    link.classList.remove('active-nav');
+                    if (link.getAttribute('href').substring(1) === current) {
+                        link.classList.add('active-nav');
+                    }
+                });
+            });
+        }
+        
+        // 移动端菜单
+        function initMobileMenu() {
+            const menuToggle = document.getElementById('menu-toggle');
+            const mobileMenu = document.getElementById('mobile-menu');
+            const navbar = document.getElementById('navbar');
+            const mobileNavLinks = document.querySelectorAll('.mobile-nav-link');
+
+            // 菜单固定在导航栏下方，高度随滚动收缩而变化
+            const syncMenuPosition = () => {
+                if (mobileMenu.classList.contains('hidden')) return;
+                mobileMenu.style.top = Math.round(navbar.getBoundingClientRect().bottom + 10) + 'px';
+            };
+            
+            menuToggle.addEventListener('click', () => {
+                mobileMenu.classList.toggle('hidden');
+                syncMenuPosition();
+            });
+            
+            mobileNavLinks.forEach(link => {
+                link.addEventListener('click', () => {
+                    mobileMenu.classList.add('hidden');
+                });
+            });
+
+            window.addEventListener('scroll', syncMenuPosition, { passive: true });
+            window.addEventListener('resize', syncMenuPosition);
+        }
+        
+        // 滚动进度条
+        function initScrollProgress() {
+            const bar = document.getElementById('scroll-progress');
+            if (!bar) return;
+            window.addEventListener('scroll', () => {
+                const doc = document.documentElement;
+                const max = doc.scrollHeight - doc.clientHeight;
+                bar.style.width = (max > 0 ? (window.scrollY / max) * 100 : 0) + '%';
+            }, { passive: true });
+        }
+
+        // 返回顶部
+        function initBackToTop() {
+            const btn = document.getElementById('back-to-top');
+            if (!btn) return;
+            window.addEventListener('scroll', () => {
+                const show = window.scrollY > 400;
+                btn.classList.toggle('opacity-0', !show);
+                btn.classList.toggle('pointer-events-none', !show);
+            }, { passive: true });
+            btn.addEventListener('click', () => {
+                window.scrollTo({ top: 0, behavior: 'smooth' });
+            });
+        }
+
+        // 暗色模式切换
+        function initDarkMode() {
+            document.querySelectorAll('.theme-toggle').forEach(btn => {
+                btn.addEventListener('click', () => {
+                    const dark = document.documentElement.classList.toggle('dark');
+                    localStorage.setItem('theme', dark ? 'dark' : 'light');
+                });
+            });
+        }
+
+        // 模态框打开动画
+        function animateModalOpen(modal) {
+            modal.classList.remove('modal-enter');
+            void modal.offsetWidth;
+            modal.classList.add('modal-enter');
+        }
+
+        // 平滑滚动
+        function initSmoothScroll() {
+            document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+                anchor.addEventListener('click', function(e) {
+                    e.preventDefault();
+                    
+                    const targetId = this.getAttribute('href');
+                    const targetElement = document.querySelector(targetId);
+                    
+                    if (targetElement) {
+                        window.scrollTo({
+                            top: targetElement.offsetTop - 80, // 减去导航栏高度
+                            behavior: 'smooth'
+                        });
+                    }
+                });
+            });
+        }
+        
+        // 博客系统 - 动态加载模式
+        // 配置基础路径 - 根据你的 GitHub Pages 配置修改
+        const BASE_URL = 'https://lmy18280.github.io';
+        const BLOG_DIRECTORY = '/blogs/';
+        
+        // 文章清单：默认手动列表（自动发现失败时的回退方案）
+        // *******************************************如需手动添加文章，在此添加文件名即可
+        let BLOG_FILES = [
+            'first-post.md',
+            'second-post.md',
+            'third-post.md'
+        ];
+
+        // markdown 内容缓存（同一篇文章只下载一次）
+        const mdCache = {};
+
+        // 带缓存的 fetch：重复请求直接命中内存
+        async function fetchMarkdown(url) {
+            if (mdCache[url]) return mdCache[url];
+            const response = await fetch(url);
+            if (!response.ok) throw new Error('HTTP ' + response.status);
+            const text = await response.text();
+            mdCache[url] = text;
+            return text;
+        }
+
+        // 自动发现文章：通过 GitHub API 读取 blogs 目录（带 10 分钟本地缓存，失败时回退手动列表）
+        async function discoverBlogFiles() {
+            const API_URL = 'https://api.github.com/repos/lmy18280/lmy18280.github.io/contents/blogs';
+            const CACHE_KEY = 'blog-files-cache';
+            const CACHE_TTL = 10 * 60 * 1000;
+
+            // 优先用本地缓存，避免频繁请求 API
+            try {
+                const cached = JSON.parse(localStorage.getItem(CACHE_KEY) || 'null');
+                if (cached && Date.now() - cached.time < CACHE_TTL) {
+                    return cached.files;
+                }
+            } catch (e) { /* 缓存损坏时忽略 */ }
+
+            try {
+                const response = await fetch(API_URL);
+                if (!response.ok) throw new Error('HTTP ' + response.status);
+                const items = await response.json();
+                const files = items
+                    .filter(item => item.type === 'file' && item.name.endsWith('.md'))
+                    .map(item => item.name);
+                if (files.length > 0) {
+                    localStorage.setItem(CACHE_KEY, JSON.stringify({ time: Date.now(), files: files }));
+                    return files;
+                }
+            } catch (e) {
+                console.warn('自动发现文章失败，回退到手动列表:', e);
+            }
+            return null;
+        }
+
+        // 获取当前页面的完整 URL 路径（用 host 保留端口，本地调试也能用）
+        function getCurrentBaseUrl() {
+            const protocol = window.location.protocol;
+            const host = window.location.host;
+            const pathname = window.location.pathname;
+            
+            // 如果是 GitHub Pages 用户页面 (username.github.io)
+            if (host === 'lmy18280.github.io') {
+                return protocol + '//' + host;
+            }
+            
+            // 如果是项目页面 (username.github.io/repo-name)
+            const repoMatch = pathname.match(/^\/([^\/]+)\//);
+            if (repoMatch) {
+                return protocol + '//' + host + '/' + repoMatch[1];
+            }
+            
+            return protocol + '//' + host;
+        }
+
+        // ===== Giscus 评论配置 =====
+        // 启用步骤（一次性，需 GitHub 操作）:
+        // 1. 仓库 Settings → General → 拉到最底勾选 Discussions
+        // 2. 安装 giscus app: https://github.com/apps/giscus（授权给本仓库）
+        // 3. 打开 https://giscus.app 生成配置，把 repoId / categoryId 填入下方，enabled 改为 true
+        const GISCUS_CONFIG = {
+            enabled: true,
+            repo: 'lmy18280/lmy18280.github.io',
+            repoId: 'R_kgDOTNS4Hw',
+            category: 'Announcements',
+            categoryId: 'DIC_kwDOTNS4H84DEO--'
+        };
+
+        // 注入 giscus 评论脚本（未启用时什么都不显示）
+        function loadGiscusComments() {
+            const container = document.getElementById('giscus-comments');
+            if (!container || !GISCUS_CONFIG.enabled) return;
+            container.innerHTML = '';
+            const script = document.createElement('script');
+            script.src = 'https://giscus.app/client.js';
+            script.async = true;
+            script.crossOrigin = 'anonymous';
+            script.setAttribute('data-repo', GISCUS_CONFIG.repo);
+            script.setAttribute('data-repo-id', GISCUS_CONFIG.repoId);
+            script.setAttribute('data-category', GISCUS_CONFIG.category);
+            script.setAttribute('data-category-id', GISCUS_CONFIG.categoryId);
+            script.setAttribute('data-mapping', 'title');
+            script.setAttribute('data-strict', '0');
+            script.setAttribute('data-reactions-enabled', '1');
+            script.setAttribute('data-emit-metadata', '0');
+            script.setAttribute('data-input-position', 'top');
+            script.setAttribute('data-theme', 'preferred_color_scheme');
+            script.setAttribute('data-lang', 'zh-CN');
+            container.appendChild(script);
+        }
+        
+        // 解析markdown元数据
+        function parsePostMeta(markdown) {
+            const lines = markdown.split('\n');
+            const meta = {
+                title: '无标题',
+                date: '',
+                description: '',
+                tags: [],
+                content: markdown
+            };
+            
+            // 检查是否有YAML风格的前置元数据
+            if (lines[0].trim() === '---') {
+                let endIndex = 1;
+                for (let i = 1; i < lines.length; i++) {
+                    if (lines[i].trim() === '---') {
+                        endIndex = i;
+                        break;
+                    }
+                }
+                
+                const metaLines = lines.slice(1, endIndex);
+                metaLines.forEach(line => {
+                    const colonIndex = line.indexOf(':');
+                    if (colonIndex > 0) {
+                        const key = line.substring(0, colonIndex).trim().toLowerCase();
+                        const value = line.substring(colonIndex + 1).trim();
+                        
+                        if (key === 'title') meta.title = value;
+                        else if (key === 'date') meta.date = value;
+                        else if (key === 'description') meta.description = value;
+                        else if (key === 'tags') {
+                            // 解析标签：支持逗号分隔和数组格式
+                            meta.tags = value.split(',').map(tag => tag.trim()).filter(tag => tag);
+                        }
+                    }
+                });
+                
+                meta.content = lines.slice(endIndex + 1).join('\n').trim();
+            } else {
+                // 简单标题检测：# 标题
+                const titleLine = lines.find(line => line.trim().startsWith('# '));
+                if (titleLine) {
+                    meta.title = titleLine.trim().substring(2).trim();
+                }
+                // 取第一段作为描述
+                const contentLines = lines.filter(l => l.trim() && !l.trim().startsWith('#'));
+                if (contentLines.length > 0) {
+                    meta.description = contentLines[0].substring(0, 100) + (contentLines[0].length > 100 ? '...' : '');
+                }
+            }
+            
+            return meta;
+        }
+        
+        // 全局变量：存储所有文章
+        let allPosts = [];
+        
+        // 提取文章封面图（markdown 中第一张图片）
+        function getPostCover(markdown) {
+            const match = markdown.match(/!\[[^\]]*\]\(([^)]+)\)/);
+            return match ? match[1] : '';
+        }
+
+        // 估算阅读时长（中文 300 字/分钟，英文 200 词/分钟）
+        function getReadingTime(markdown) {
+            const text = markdown.replace(/[#*`\[\]!>|~-]/g, ' ').replace(/\s+/g, ' ');
+            const cjkChars = (text.match(/[\u4e00-\u9fff]/g) || []).length;
+            const words = (text.match(/[A-Za-z0-9]+/g) || []).length;
+            const minutes = Math.round(cjkChars / 300 + words / 200);
+            return Math.max(1, minutes) + ' 分钟阅读';
+        }
+
+        // 渲染文章列表
+        function renderBlogList(posts) {
+            const blogList = document.getElementById('blog-list');
+            
+            if (posts.length === 0) {
+                blogList.innerHTML = `
+                    <div class="text-center text-gray-500 col-span-full py-12">
+                        <svg fill="none" class="w-9 h-9 mb-4 opacity-50" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M15 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V7Z"/><path d="M14 2v4a2 2 0 0 0 2 2h4"/><path d="M10 9H8"/><path d="M16 13H8"/><path d="M16 17H8"/></svg>
+                        <p>暂无文章</p>
+                        <p class="text-sm mt-2">在 blogs 目录下添加 .md 文件即可自动发布文章</p>
+                    </div>
+                `;
+            } else {
+                blogList.innerHTML = posts.map(post => `
+                    <div class="bg-white rounded-xl overflow-hidden card-hover cursor-pointer group" 
+                         onclick="location.href='/blog.html#blog/${post.filename}'" 
+                         data-aos="fade-up">
+                        ${post.cover ? `
+                            <div class="relative hidden md:block h-44 overflow-hidden bg-gray-100">
+                                <img src="${post.cover}" alt="${post.title}" loading="lazy"
+                                     class="w-full h-full object-cover transition-transform duration-500 group-hover:scale-105"
+                                     onerror="this.parentElement.style.display='none'">
+                            </div>
+                        ` : ''}
+                        <div class="p-6">
+                            <div class="flex items-center mb-3">
+                                <svg fill="none" class="w-5 h-5 text-primary mr-2" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M15 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V7Z"/><path d="M14 2v4a2 2 0 0 0 2 2h4"/><path d="M10 9H8"/><path d="M16 13H8"/><path d="M16 17H8"/></svg>
+                                <span class="text-sm text-gray-500">${post.date || '日期未知'}</span>
+                                <span class="text-sm text-gray-400 mx-2">·</span>
+                                <span class="text-sm text-gray-500">${post.readingTime || ''}</span>
+                            </div>
+                            <h3 class="text-xl font-semibold mb-3 hover:text-primary transition-colors">${post.title}</h3>
+                            <p class="text-gray-600 text-sm">${post.description || '暂无描述'}</p>
+                            ${post.tags.length > 0 ? `
+                                <div class="flex flex-wrap gap-2 mt-4">
+                                    ${post.tags.map(tag => `<span class="px-2 py-1 bg-purple-100 text-purple-700 rounded-full text-xs">${tag}</span>`).join('')}
+                                </div>
+                            ` : ''}
+                            <div class="mt-4 text-primary text-sm flex items-center gap-1 group-hover:gap-2 transition-all">
+                                阅读更多 <svg fill="none" class="w-5 h-5 ml-1" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12h14"/><path d="m12 5 7 7-7 7"/></svg>
+                            </div>
+                        </div>
+                    </div>
+                `).join('');
+            }
+        }
+        
+        // 加载博客文章
+        async function loadBlogPosts() {
+            const blogList = document.getElementById('blog-list');
+            const currentBaseUrl = getCurrentBaseUrl();
+            
+            try {
+                let posts = [];
+                
+                // 自动发现文章列表（失败时回退到手动列表）
+                const discovered = await discoverBlogFiles();
+                if (discovered) {
+                    BLOG_FILES = discovered;
+                }
+                
+                // 加载每篇文章（带缓存）
+                for (const file of BLOG_FILES) {
+                    const fullUrl = currentBaseUrl + BLOG_DIRECTORY + file;
+                    
+                    try {
+                        const markdown = await fetchMarkdown(fullUrl);
+                        const meta = parsePostMeta(markdown);
+                        meta.filename = file;
+                        meta.cover = getPostCover(meta.content);
+                        meta.readingTime = getReadingTime(meta.content);
+                        posts.push(meta);
+                    } catch (e) {
+                        console.warn(`文件 ${file} 加载失败:`, e);
+                    }
+                }
+                
+                // 按日期排序（最新的在前）
+                posts.sort((a, b) => {
+                    if (a.date && b.date) {
+                        return new Date(b.date) - new Date(a.date);
+                    }
+                    return 0;
+                });
+                
+                // 保存所有文章到全局变量
+                allPosts = posts;
+                
+                // 主页只展示最新 3 篇（筛选器组件留给 blog.html）
+                renderBlogList(posts.slice(0, 3));
+
+                // 文章加载完成后，再处理一次 hash（支持自动发现的新文章）
+                checkHashAndOpenArticle();
+                
+            } catch (error) {
+                console.error('加载博客失败:', error);
+                blogList.innerHTML = `
+                    <div class="text-center text-gray-500 col-span-full py-12">
+                        <svg fill="none" class="w-9 h-9 mb-4" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m21.73 18-8-14a2 2 0 0 0-3.48 0l-8 14A2 2 0 0 0 4 21h16a2 2 0 0 0 1.73-3Z"/><path d="M12 9v4"/><path d="M12 17h.01"/></svg>
+                        <p>加载失败</p>
+                        <p class="text-sm mt-2">请检查网络连接或稍后重试</p>
+                        <p class="text-xs mt-2 text-gray-400">错误信息: ${error.message}</p>
+                    </div>
+                `;
+            }
+        }
+        
+        // 打开文章
+        async function openArticle(filename) {
+            const modal = document.getElementById('article-modal');
+            const contentDiv = document.getElementById('article-modal-content');
+            
+            modal.classList.remove('hidden');
+            document.body.style.overflow = 'hidden';
+            animateModalOpen(modal);
+            
+            contentDiv.innerHTML = '<div class="text-center py-12"><svg fill="none" class="w-9 h-9  animate-spin" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M21 12a9 9 0 1 1-6.219-8.56"/></svg></div>';
+            
+            try {
+                const currentBaseUrl = getCurrentBaseUrl();
+                const markdown = await fetchMarkdown(currentBaseUrl + BLOG_DIRECTORY + filename);
+                {
+                    const meta = parsePostMeta(markdown);
+                    
+                    // 配置marked.js，添加代码高亮
+                    marked.setOptions({
+                        highlight: function(code, lang) {
+                            if (lang && hljs.getLanguage(lang)) {
+                                try {
+                                    return hljs.highlight(code, { language: lang }).value;
+                                } catch (e) {
+                                    console.error('Highlight error:', e);
+                                }
+                            }
+                            return hljs.highlightAuto(code).value;
+                        },
+                        breaks: true,
+                        gfm: true,
+                        underscores: false
+                    });
+                    
+                    // 使用marked.js解析markdown
+                    const htmlContent = marked.parse(meta.content);
+                    
+                    contentDiv.innerHTML = `
+                        <div class="prose prose-lg max-w-none">
+                            <h1 class="text-3xl font-bold mb-4">${meta.title}</h1>
+                            <div class="text-gray-500 mb-4">
+                                <svg fill="none" class="w-5 h-5 mr-2" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M8 2v4"/><path d="M16 2v4"/><rect width="18" height="18" x="3" y="4" rx="2"/><path d="M3 10h18"/></svg>${meta.date || '日期未知'}
+                            </div>
+                            ${meta.tags.length > 0 ? `
+                                <div class="flex flex-wrap gap-2 mb-6">
+                                    <span class="text-gray-500 text-sm mr-2">标签:</span>
+                                    ${meta.tags.map(tag => `<span class="px-2 py-1 bg-purple-100 text-purple-700 rounded-full text-sm">${tag}</span>`).join('')}
+                                </div>
+                            ` : ''}
+                            <div class="border-t pt-6 article-content">
+                                ${htmlContent}
+                            </div>
+                            <div id="giscus-comments" class="mt-10"></div>
+                        </div>
+                    `;
+                    
+                    // 博客图片懒加载
+                    contentDiv.querySelectorAll('.article-content img').forEach(img => {
+                        img.loading = 'lazy';
+                        img.decoding = 'async';
+                    });
+
+                    // 加载 giscus 评论（未配置时自动跳过）
+                    loadGiscusComments();
+
+                    // 设置 URL hash，方便分享
+                    history.replaceState(null, '', '#blog/' + filename);
+                    
+                    // 更改标签页标题
+                    document.title = meta.title + ' - Craig';
+                    
+                    // 重新高亮代码块
+                    setTimeout(() => {
+                        hljs.highlightAll();
+                    }, 100);
+                }
+            } catch (error) {
+                console.error('加载文章失败:', error);
+                contentDiv.innerHTML = '<div class="text-center py-12 text-red-500">文章加载失败</div>';
+            }
+        }
+        
+        // 关闭文章模态框
+        function closeArticleModal() {
+            const modal = document.getElementById('article-modal');
+            modal.classList.add('hidden');
+            document.body.style.overflow = '';
+            // 恢复标签页标题
+            document.title = 'Craig';
+            // 清除 hash
+            if (window.location.hash.startsWith('#blog/')) {
+                history.replaceState(null, '', window.location.pathname + window.location.search);
+            }
+        }
+        
+        // 初始化文章模态框
+        function initArticleModal() {
+            const closeBtn = document.getElementById('close-article-modal');
+            const overlay = document.getElementById('article-modal-overlay');
+            
+            closeBtn.addEventListener('click', closeArticleModal);
+            overlay.addEventListener('click', closeArticleModal);
+            
+            // ESC键关闭
+            document.addEventListener('keydown', (e) => {
+                if (e.key === 'Escape') {
+                    closeArticleModal();
+                }
+            });
+
+            // 移动端下滑关闭文章
+            let touchStartY = 0;
+            const articleModalEl = document.getElementById('article-modal');
+            articleModalEl.addEventListener('touchstart', (e) => {
+                touchStartY = e.touches[0].clientY;
+            }, { passive: true });
+            articleModalEl.addEventListener('touchend', (e) => {
+                const deltaY = e.changedTouches[0].clientY - touchStartY;
+                if (deltaY > 80) closeArticleModal();
+            }, { passive: true });
+        }
+        
+        // 检查 hash 自动打开文章
+        function checkHashAndOpenArticle() {
+            const hash = window.location.hash;
+            if (hash.startsWith('#blog/')) {
+                const filename = decodeURIComponent(hash.slice(6));
+                const modal = document.getElementById('article-modal');
+                if (BLOG_FILES.includes(filename) && modal.classList.contains('hidden')) {
+                    openArticle(filename);
+                }
+            }
+        }
+        
+        // 简单的 toast 提示
+        function showToast(msg) {
+            const toast = document.createElement('div');
+            toast.textContent = msg;
+            toast.style.cssText = 'position:fixed;bottom:30px;left:50%;transform:translateX(-50%);background:rgba(0,0,0,0.8);color:#fff;padding:10px 20px;border-radius:8px;z-index:9999;font-size:14px;max-width:90%;word-break:break-all;transition:opacity 0.3s;';
+            document.body.appendChild(toast);
+            setTimeout(() => { toast.style.opacity = '0'; }, 2500);
+            setTimeout(() => { toast.remove(); }, 3000);
+        }
+        
+        // 打开经历详情模态框（重用文章模态框）
+        async function openExperienceDetail(postId) {
+            const modal = document.getElementById('article-modal');
+            const contentDiv = document.getElementById('article-modal-content');
+            
+            modal.classList.remove('hidden');
+            document.body.style.overflow = 'hidden';
+            animateModalOpen(modal);
+            
+            contentDiv.innerHTML = '<div class="text-center py-12"><svg fill="none" class="w-9 h-9  animate-spin" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M21 12a9 9 0 1 1-6.219-8.56"/></svg></div>';
+            
+            try {
+                const currentBaseUrl = getCurrentBaseUrl();
+                const markdown = await fetchMarkdown(currentBaseUrl + '/ExperiencesDisc/' + postId + '.md');
+                {
+                    const meta = parsePostMeta(markdown);
+                    
+                    // 使用marked.js解析markdown
+                    marked.setOptions({
+                        highlight: function(code, lang) {
+                            if (lang && hljs.getLanguage(lang)) {
+                                try {
+                                    return hljs.highlight(code, { language: lang }).value;
+                                } catch (e) {
+                                    console.error('Highlight error:', e);
+                                }
+                            }
+                            return hljs.highlightAuto(code).value;
+                        },
+                        breaks: true,
+                        gfm: true,
+                        underscores: false
+                    });
+                    
+                    const htmlContent = marked.parse(meta.content);
+                    
+                    contentDiv.innerHTML = `
+                        <div class="prose prose-lg max-w-none">
+                            <h1 class="text-3xl font-bold mb-4">${meta.title}</h1>
+                            <div class="text-gray-500 mb-4">
+                                <svg fill="none" class="w-5 h-5 mr-2" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M8 2v4"/><path d="M16 2v4"/><rect width="18" height="18" x="3" y="4" rx="2"/><path d="M3 10h18"/></svg>${meta.date || '日期未知'}
+                            </div>
+                            <div class="border-t pt-6 article-content">
+                                ${htmlContent}
+                            </div>
+                        </div>
+                    `;
+                    
+                    // 经历图片懒加载
+                    contentDiv.querySelectorAll('.article-content img').forEach(img => {
+                        img.loading = 'lazy';
+                        img.decoding = 'async';
+                    });
+
+                    setTimeout(() => {
+                        hljs.highlightAll();
+                    }, 100);
+                }
+            } catch (error) {
+                console.error('加载经历详情失败:', error);
+                contentDiv.innerHTML = '<div class="text-center py-12 text-red-500">加载失败</div>';
+            }
+        }
+        
+        // DOM加载完成后初始化博客
+        document.addEventListener('DOMContentLoaded', function() {
+            loadBlogPosts();
+        });
+    </script>
+</body>
+</html>

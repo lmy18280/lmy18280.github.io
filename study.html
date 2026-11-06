@@ -1,0 +1,807 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Craig的考研学习进度">
+    <meta name="author" content="Craig">
+    <meta name="theme-color" content="#F8FAFC">
+    <link rel="icon" type="image/png" href="/imgs/favicon.png">
+    <title>学习进度 | Craig</title>
+
+    <!-- Tailwind CSS v3 (本地) -->
+    <script src="/libs/tailwind.js"></script>
+    <script>
+        (function() {
+            try {
+                var saved = localStorage.getItem('theme');
+                var prefersDark = window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches;
+                if (saved ? saved === 'dark' : prefersDark) {
+                    document.documentElement.classList.add('dark');
+                }
+            } catch (e) {}
+        })();
+    </script>
+    <script>
+        tailwind.config = {
+            darkMode: 'class',
+            theme: {
+                extend: {
+                    colors: {
+                        primary: '#2563EB',
+                        secondary: '#10B981',
+                        dark: '#0F172A',
+                        light: '#F8FAFC'
+                    }
+                }
+            }
+        }
+    </script>
+
+    <style>
+        /* ===== 自定义颜色兜底 ===== */
+        .bg-primary { background-color: #2563EB; }
+        .text-primary { color: #2563EB; }
+        .bg-secondary { background-color: #10B981; }
+        .text-secondary { color: #10B981; }
+        .bg-dark { background-color: #0F172A; }
+        .text-dark { color: #0F172A; }
+        .bg-light { background-color: #F8FAFC; }
+        .bg-gradient { background: linear-gradient(135deg, #2563EB 0%, #4F46E5 100%); }
+
+        /* ===== 暗色模式覆盖 ===== */
+        .dark body { background-color: #0F172A !important; color: #E2E8F0 !important; }
+        .dark #navbar {
+            background-color: rgba(15, 23, 42, 0.72) !important;
+            border-color: rgba(148, 163, 184, 0.18) !important;
+            box-shadow: 0 10px 30px -14px rgba(0, 0, 0, 0.6), 0 4px 12px -8px rgba(0, 0, 0, 0.4) !important;
+        }
+        .dark #navbar.nav-scrolled {
+            background-color: rgba(15, 23, 42, 0.85) !important;
+            box-shadow: 0 16px 40px -18px rgba(0, 0, 0, 0.7), 0 6px 16px -10px rgba(0, 0, 0, 0.5) !important;
+        }
+        .dark #mobile-menu {
+            background-color: rgba(15, 23, 42, 0.42) !important;
+            border-color: rgba(148, 163, 184, 0.18) !important;
+            box-shadow: 0 18px 44px -16px rgba(0, 0, 0, 0.65) !important;
+        }
+        .dark #navbar .text-dark, .dark .text-dark { color: #E2E8F0 !important; }
+        .dark .bg-white { background-color: #1E293B !important; }
+        .dark .bg-gray-50 { background-color: #16213A !important; }
+        .dark .bg-gray-100 { background-color: #334155 !important; }
+        .dark .bg-emerald-50 { background-color: rgba(16, 185, 129, 0.12) !important; }
+        .dark .bg-amber-50 { background-color: rgba(245, 158, 11, 0.12) !important; }
+        .dark .text-gray-500, .dark .text-gray-600, .dark .text-gray-700 { color: #CBD5E1 !important; }
+        .dark .text-gray-400 { color: #94A3B8 !important; }
+        .dark .border-gray-100, .dark .border-gray-200 { border-color: #334155 !important; }
+        .dark .text-amber-700 { color: #FCD34D !important; }
+        .dark .border-amber-200 { border-color: rgba(245, 158, 11, 0.35) !important; }
+
+        /* ===== 导航栏 ===== */
+        #navbar {
+            left: 0;
+            right: 0;
+            width: calc(100% - 2rem);
+            max-width: 1280px;
+            margin: 0.85rem auto 0;
+            border-radius: 1.1rem;
+            background-color: rgba(255, 255, 255, 0.72);
+            border: 1px solid rgba(255, 255, 255, 0.55);
+            box-shadow: 0 10px 30px -14px rgba(15, 23, 42, 0.25),
+                        0 4px 12px -8px rgba(15, 23, 42, 0.12);
+            -webkit-backdrop-filter: blur(14px) saturate(180%);
+            backdrop-filter: blur(14px) saturate(180%);
+            transform: translateZ(0);
+            transition: margin 0.45s cubic-bezier(0.22, 1, 0.36, 1),
+                        background-color 0.45s ease,
+                        box-shadow 0.45s ease;
+        }
+        #navbar.nav-scrolled {
+            margin-top: 0.6rem;
+            background-color: rgba(255, 255, 255, 0.85);
+            box-shadow: 0 16px 40px -18px rgba(15, 23, 42, 0.35),
+                        0 6px 16px -10px rgba(15, 23, 42, 0.18);
+        }
+        /* 移动端菜单：独立 fixed 定位 + 高斯模糊（top 由 JS 跟随导航栏实时高度） */
+        #mobile-menu {
+            position: fixed;
+            top: 5.6rem;
+            left: 50%;
+            right: auto;
+            width: calc(100% - 2rem);
+            max-width: 1280px;
+            margin: 0;
+            z-index: 45;
+            border-radius: 1.1rem;
+            background-color: rgba(255, 255, 255, 0.42);
+            border: 1px solid rgba(255, 255, 255, 0.45);
+            box-shadow: 0 18px 44px -16px rgba(15, 23, 42, 0.3);
+            -webkit-backdrop-filter: blur(24px) saturate(170%);
+            backdrop-filter: blur(24px) saturate(170%);
+            overflow: hidden;
+            transform: translateX(-50%);
+            transform-origin: top center;
+        }
+        #mobile-menu:not(.hidden) {
+            animation: mobileMenuIn 0.34s cubic-bezier(0.22, 1, 0.36, 1) both;
+        }
+        @keyframes mobileMenuIn {
+            from { opacity: 0; transform: translateX(-50%) translateY(-0.6rem) scale(0.98); }
+            to   { opacity: 1; transform: translateX(-50%) translateY(0) scale(1); }
+        }
+
+        /* ===== 导航链接 ===== */
+        .nav-link { position: relative; }
+        .nav-link::after {
+            content: '';
+            position: absolute;
+            width: 0;
+            height: 2px;
+            bottom: -4px;
+            left: 0;
+            background-color: #2563EB;
+            transition: width 0.3s ease;
+        }
+        .nav-link:hover::after { width: 100%; }
+        .active-nav::after { width: 100%; }
+        .study-nav-link { color: #10B981; }
+        .study-nav-link::after { background-color: #10B981; }
+        .study-nav-link:hover { color: #059669; }
+
+        /* ===== 进度条动画 ===== */
+        .progress-fill {
+            width: 0;
+            transition: width 1s cubic-bezier(0.22, 1, 0.36, 1);
+        }
+
+        /* ===== 周热力图 ===== */
+        .week-cell {
+            width: 30px;
+            height: 30px;
+            border-radius: 8px;
+            border: 0;
+            flex: 0 0 auto;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 10px;
+            font-weight: 600;
+            line-height: 1;
+            cursor: pointer;
+            background-color: #E8EEF6;
+            color: #94A3B8;
+            transition: transform 0.15s ease, box-shadow 0.15s ease;
+        }
+        .week-cell:hover { transform: translateY(-2px); }
+        .week-done { background-color: #10B981; color: #fff; }
+        .week-active { background-color: #2563EB; color: #fff; }
+        .week-overdue { background-color: #F59E0B; color: #fff; }
+        .week-future { background-color: #E8EEF6; color: #94A3B8; }
+        .week-cell.selected { box-shadow: 0 0 0 2px #fff, 0 0 0 4px #2563EB; }
+        .dark .week-future { background-color: #1E293B; color: #64748B; }
+        .dark .week-cell.selected { box-shadow: 0 0 0 2px #0F172A, 0 0 0 4px #3B82F6; }
+        .legend-cell { width: 18px; height: 18px; border-radius: 5px; pointer-events: none; }
+
+        /* ===== 其他 ===== */
+        .card-hover { transition: transform 0.3s ease, box-shadow 0.3s ease; }
+        .card-hover:hover {
+            transform: translateY(-4px);
+            box-shadow: 0 18px 36px -14px rgba(15, 23, 42, 0.16);
+        }
+        .clamp-2 {
+            display: -webkit-box;
+            -webkit-line-clamp: 2;
+            -webkit-box-orient: vertical;
+            overflow: hidden;
+        }
+        @media (prefers-reduced-motion: reduce) {
+            *, .nav-link::after, .progress-fill, .week-cell { animation: none !important; transition: none !important; }
+        }
+    </style>
+</head>
+<body class="bg-light text-dark">
+    <!-- 导航栏 -->
+    <nav id="navbar" class="fixed top-0 left-0 z-50">
+        <div class="container mx-auto px-4 py-3 flex justify-between items-center">
+            <a href="/" class="text-2xl font-bold text-primary">Craig</a>
+
+            <div class="hidden md:flex space-x-8">
+                <a href="/#home" class="nav-link">Home</a>
+                <a href="/#about" class="nav-link">About Me</a>
+                <a href="/#blog" class="nav-link">My Blog</a>
+                <a href="/#gallery" class="nav-link">Gallery</a>
+                <a href="/#contact" class="nav-link">Contact</a>
+                <a href="/study.html" class="nav-link study-nav-link active-nav font-bold" aria-current="page">学习进度</a>
+            </div>
+
+            <div class="flex items-center gap-2">
+                <button class="theme-toggle w-10 h-10 rounded-full flex items-center justify-center text-dark hover:bg-gray-100 dark:text-slate-200 dark:hover:bg-slate-800 transition-colors" aria-label="切换暗色模式">
+                    <svg class="w-5 h-5 hidden dark:block" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3a6 6 0 0 0 9 9 9 9 0 1 1-9-9Z"/></svg>
+                    <svg class="w-5 h-5 dark:hidden" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="4"/><path d="M12 2v2"/><path d="M12 20v2"/><path d="m4.93 4.93 1.41 1.41"/><path d="m17.66 17.66 1.41 1.41"/><path d="M2 12h2"/><path d="M20 12h2"/><path d="m6.34 17.66-1.41 1.41"/><path d="m19.07 4.93-1.41 1.41"/></svg>
+                </button>
+                <div class="md:hidden">
+                    <button id="menu-toggle" class="text-dark focus:outline-none" aria-label="打开菜单">
+                        <svg fill="none" class="w-5 h-5" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><line x1="3" y1="6" x2="21" y2="6"/><line x1="3" y1="12" x2="21" y2="12"/><line x1="3" y1="18" x2="21" y2="18"/></svg>
+                    </button>
+                </div>
+            </div>
+        </div>
+
+    </nav>
+
+    <!-- 移动端导航菜单：必须放在 #navbar 之外，否则父级的 backdrop-filter 会让自身的模糊失效 -->
+    <div id="mobile-menu" class="md:hidden hidden">
+        <div class="container mx-auto px-4 py-3 flex flex-col space-y-3">
+            <a href="/#home" class="mobile-nav-link py-2">Home</a>
+            <a href="/#about" class="mobile-nav-link py-2">About Me</a>
+            <a href="/#blog" class="mobile-nav-link py-2">My Blog</a>
+            <a href="/#gallery" class="mobile-nav-link py-2">Gallery</a>
+            <a href="/#contact" class="mobile-nav-link py-2">Contact</a>
+            <a href="/study.html" class="mobile-nav-link py-2 font-bold text-secondary">学习进度</a>
+            <button class="theme-toggle mobile-nav-link py-2 flex items-center gap-2 text-left" aria-label="切换主题">
+                <svg class="w-5 h-5 hidden dark:block" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3a6 6 0 0 0 9 9 9 9 0 1 1-9-9Z"/></svg>
+                <svg class="w-5 h-5 dark:hidden" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="4"/><path d="M12 2v2"/><path d="M12 20v2"/><path d="m4.93 4.93 1.41 1.41"/><path d="m17.66 17.66 1.41 1.41"/><path d="M2 12h2"/><path d="M20 12h2"/><path d="m6.34 17.66-1.41 1.41"/><path d="m19.07 4.93-1.41 1.41"/></svg>
+                <span>切换主题</span>
+            </button>
+        </div>
+    </div>
+
+    <main class="pt-28 md:pt-32 pb-8">
+        <div class="container mx-auto px-4">
+
+            <!-- 顶部 -->
+            <section class="grid lg:grid-cols-[1fr_auto] gap-8 items-end">
+                <div>
+                    <span class="inline-flex items-center gap-2 rounded-full bg-emerald-50 text-secondary px-3 py-1 text-xs font-semibold tracking-widest">
+                        <span class="w-1.5 h-1.5 rounded-full bg-secondary animate-pulse"></span>
+                        猜猜Craig在干嘛
+                    </span>
+                    <h1 class="mt-4 text-3xl md:text-5xl font-bold tracking-tight">考研复习进度</h1>
+                    <p class="mt-3 text-gray-500 max-w-xl">Craig在背后疯狂赶进度中。没回消息就是学疯了。</p>
+                </div>
+                <div class="relative overflow-hidden rounded-3xl bg-gradient p-6 text-white min-w-[230px] shadow-xl">
+                    <div class="absolute -right-8 -top-8 w-32 h-32 rounded-full bg-white/10"></div>
+                    <div class="absolute -right-2 top-10 w-16 h-16 rounded-full bg-white/10"></div>
+                    <div class="relative">
+                        <div class="text-[11px] uppercase tracking-[0.22em] text-white/70">距离初试 · 2028届</div>
+                        <div class="mt-2 flex items-end gap-2">
+                            <span id="days-to-exam" class="text-5xl font-bold leading-none">--</span>
+                            <span class="text-sm pb-1 text-white/80">天</span>
+                        </div>
+                        <div class="mt-3 text-xs text-white/70">2027-12-18</div>
+                    </div>
+                </div>
+            </section>
+
+            <div id="load-error" class="hidden mt-6 rounded-xl border border-amber-200 bg-amber-50 text-amber-700 px-4 py-3 text-sm">
+                加载失败，请刷新重试。
+            </div>
+
+            <!-- 关键指标 -->
+            <section class="grid grid-cols-2 lg:grid-cols-4 gap-4 mt-10">
+                <div class="bg-white rounded-2xl border border-gray-100 p-5 shadow-sm">
+                    <div class="text-xs text-gray-500">当前周</div>
+                    <div class="mt-1 flex items-baseline gap-1">
+                        <span id="stat-week" class="text-2xl font-bold">--</span>
+                        <span class="text-sm text-gray-400">/ 62 周</span>
+                    </div>
+                </div>
+                <div class="bg-white rounded-2xl border border-gray-100 p-5 shadow-sm">
+                    <div class="text-xs text-gray-500">已完成</div>
+                    <div class="mt-1 flex items-baseline gap-1">
+                        <span id="stat-done" class="text-2xl font-bold">--</span>
+                        <span class="text-sm text-gray-400">周</span>
+                    </div>
+                </div>
+                <div class="bg-white rounded-2xl border border-gray-100 p-5 shadow-sm">
+                    <div class="text-xs text-gray-500">累计学习</div>
+                    <div class="mt-1 flex items-baseline gap-1">
+                        <span id="stat-hours" class="text-2xl font-bold">--</span>
+                        <span class="text-sm text-gray-400">小时</span>
+                    </div>
+                </div>
+                <div class="bg-white rounded-2xl border border-gray-100 p-5 shadow-sm">
+                    <div class="text-xs text-gray-500">所处阶段</div>
+                    <div id="stat-stage" class="mt-1 text-xl font-bold">--</div>
+                </div>
+            </section>
+
+            <!-- 计划进度 + 当前阶段 -->
+            <section class="grid lg:grid-cols-3 gap-6 mt-6">
+                <div class="lg:col-span-2 bg-white rounded-2xl border border-gray-100 p-6 shadow-sm">
+                    <div class="flex items-end justify-between gap-4">
+                        <div>
+                            <h2 class="font-semibold">计划进度</h2>
+                            <p class="text-xs text-gray-500 mt-1">408真好，推荐大家考（bushi）</p>
+                        </div>
+                        <span id="pace-badge" class="text-xs font-semibold px-2.5 py-1 rounded-full">--</span>
+                    </div>
+
+                    <div class="mt-6 space-y-4">
+                        <div>
+                            <div class="flex justify-between text-xs text-gray-500 mb-2">
+                                <span>时间线</span>
+                                <span id="time-progress-label">--</span>
+                            </div>
+                            <div class="h-2.5 rounded-full overflow-hidden" style="background: rgba(148, 163, 184, 0.18);">
+                                <div id="time-progress-bar" class="progress-fill h-full rounded-full" style="background:#2563EB"></div>
+                            </div>
+                        </div>
+                        <div>
+                            <div class="flex justify-between text-xs text-gray-500 mb-2">
+                                <span>任务线</span>
+                                <span id="done-progress-label">--</span>
+                            </div>
+                            <div class="h-2.5 rounded-full overflow-hidden" style="background: rgba(148, 163, 184, 0.18);">
+                                <div id="done-progress-bar" class="progress-fill h-full rounded-full" style="background:#10B981"></div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="mt-5 flex justify-between text-xs text-gray-400">
+                        <span id="plan-range">--</span>
+                        <span>更新于 <span id="updated-at">--</span></span>
+                    </div>
+                </div>
+
+                <div class="bg-white rounded-2xl border border-gray-100 p-6 shadow-sm flex flex-col justify-between">
+                    <div>
+                        <h2 class="font-semibold">当前阶段</h2>
+                        <div id="current-stage-name" class="mt-4 text-lg font-bold">--</div>
+                        <p id="current-stage-goal" class="text-sm text-gray-500 mt-2 leading-relaxed">正在读取计划…</p>
+                    </div>
+                    <div class="mt-5">
+                        <div class="flex justify-between text-xs text-gray-500 mb-2">
+                            <span>阶段完成</span>
+                            <span id="current-stage-meta">--</span>
+                        </div>
+                        <div class="h-2.5 rounded-full overflow-hidden" style="background: rgba(148, 163, 184, 0.18);">
+                            <div id="current-stage-bar" class="progress-fill h-full rounded-full" style="background:#2563EB"></div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- 62 周热力图 -->
+            <section class="mt-12">
+                <div class="flex flex-wrap items-end justify-between gap-3">
+                    <div>
+                        <h2 class="text-xl font-bold">周热力图</h2>
+                        <p class="text-xs text-gray-500 mt-1">这周Craig都干嘛了呀，也不回我消息</p>
+                    </div>
+                    <div class="flex flex-wrap items-center gap-3 text-xs text-gray-400">
+                        <span class="flex items-center gap-1.5"><span class="week-cell legend-cell week-done"></span>已完成</span>
+                        <span class="flex items-center gap-1.5"><span class="week-cell legend-cell week-active"></span>进行中</span>
+                        <span class="flex items-center gap-1.5"><span class="week-cell legend-cell week-overdue"></span>待补回</span>
+                        <span class="flex items-center gap-1.5"><span class="week-cell legend-cell week-future"></span>未开始</span>
+                    </div>
+                </div>
+
+                <div class="bg-white rounded-2xl border border-gray-100 p-6 shadow-sm mt-5">
+                    <div id="heatmap-lanes" class="space-y-5"></div>
+                </div>
+
+                <!-- 周详情 -->
+                <div class="bg-white rounded-2xl border border-gray-100 p-6 shadow-sm mt-4">
+                    <div class="flex flex-wrap items-start justify-between gap-3">
+                        <div>
+                            <div class="flex items-center gap-2">
+                                <h3 id="detail-week-title" class="text-lg font-bold">第 -- 周</h3>
+                                <span id="detail-status" class="text-xs font-semibold px-2.5 py-1 rounded-full">--</span>
+                            </div>
+                            <div id="detail-week-range" class="text-xs text-gray-400 mt-1">--</div>
+                        </div>
+                        <div class="text-right text-xs text-gray-400">
+                            <div id="detail-hours">--</div>
+                            <div id="detail-daily" class="mt-1">--</div>
+                        </div>
+                    </div>
+                    <div id="detail-tasks" class="grid sm:grid-cols-2 gap-3 mt-5"></div>
+                    <p id="detail-note" class="text-sm text-gray-500 mt-4"></p>
+                </div>
+            </section>
+
+            <!-- 五阶段 -->
+            <section class="mt-12">
+                <div class="flex items-end justify-between">
+                    <h2 class="text-xl font-bold">五阶段进度</h2>
+                    <span class="text-xs text-gray-400">第 1 - 62 周</span>
+                </div>
+                <div id="stages-grid" class="grid md:grid-cols-2 xl:grid-cols-3 gap-4 mt-5"></div>
+            </section>
+
+        </div>
+    </main>
+
+    <footer class="bg-dark text-white py-12">
+        <div class="container mx-auto px-4">
+            <div class="grid grid-cols-1 md:grid-cols-4 gap-8">
+                <!-- 个人信息 -->
+                <div>
+                    <h3 class="text-xl font-semibold mb-4">Craig</h3>
+                    <p class="text-gray-400 mb-4">
+                        希望处决我的那天，很多人来看热闹，向我发出仇恨的叫喊声
+                    </p>
+                </div>
+                
+                <!-- 快速链接 -->
+                <div>
+                    <h3 class="text-xl font-semibold mb-4">快速链接</h3>
+                    <ul class="space-y-2">
+                        <li><a href="/#home" class="text-gray-400 hover:text-white transition-colors">Home</a></li>
+                        <li><a href="/#about" class="text-gray-400 hover:text-white transition-colors">About Me</a></li>
+                        <li><a href="/#blog" class="text-gray-400 hover:text-white transition-colors">My Blog</a></li>
+                        <li><a href="/#gallery" class="text-gray-400 hover:text-white transition-colors">Gallery</a></li>
+                        <li><a href="/#contact" class="text-gray-400 hover:text-white transition-colors">Contact</a></li>
+                        <li><a href="/study.html" class="text-gray-400 hover:text-white transition-colors font-bold text-white">学习进度</a></li>
+
+                    </ul>
+                </div>
+                
+                <!-- 联系方式 -->
+                <div>
+                    <h3 class="text-xl font-semibold mb-4">联系方式</h3>
+                    <ul class="space-y-2">
+                        <li class="flex items-center">
+                            <svg fill="none" class="w-5 h-5 mr-2 text-gray-400" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="2" y="4" width="20" height="16" rx="2"/><path d="m22 7-8.97 5.7a1.94 1.94 0 0 1-2.06 0L2 7"/></svg>
+                            <a href="mailto:lmy1828000@outlook.com" class="text-gray-400 hover:text-white transition-colors">lmy1828000@outlook.com</a>
+                        </li>
+                        <li class="flex items-center">
+                            <svg fill="none" class="w-5 h-5 mr-2 text-gray-400" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M20 10c0 6-8 12-8 12s-8-6-8-12a8 8 0 0 1 16 0Z"/><circle cx="12" cy="10" r="3"/></svg>
+                            <span class="text-gray-400">人民大街3388号，南关区，长春，中国</span>
+                        </li>
+                    </ul>
+                </div>
+                
+            </div>
+            
+            <div class="border-t border-gray-800 mt-12 pt-8 text-center">
+                <p class="text-gray-400">
+                    &copy; 2026 Craig All Rights Reserved<br>尽我所能，敬我所不能<br>
+                    <span class="text-sm">本页访问量 <span id="busuanzi_value_page_pv">-</span> 次</span><br>
+                    <span class="text-sm">考研初试（28届）还剩 <span id="footer-countdown">-</span> 天</span>                
+                </p>
+            </div>
+        </div>
+    </footer>
+
+    <!-- 访问统计（不蒜子，按页面独立计数） -->
+    <script async src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+
+    <script>
+        /* ============================================================
+           配置区
+           dataUrl：62 周计划与打卡状态数据
+           ============================================================ */
+        const CONFIG = {
+            dataUrl: '/data/study-progress.json'
+        };
+
+        const STAGE_COLORS = ['#2563EB', '#0EA5E9', '#10B981', '#F59E0B', '#EF4444'];
+        const TASK_META = [
+            { key: 'math', label: '数学二', color: '#2563EB' },
+            { key: 'english', label: '英语一', color: '#10B981' },
+            { key: 'cs408', label: '408', color: '#8B5CF6' },
+            { key: 'politics', label: '思想政治', color: '#F59E0B' }
+        ];
+
+        let PLAN = null;
+        let TODAY = todayLocal();
+
+        // ---------- 工具 ----------
+        function parseDate(str) {
+            const p = String(str).split('-').map(Number);
+            return new Date(p[0], p[1] - 1, p[2]);
+        }
+        function todayLocal() {
+            const n = new Date();
+            return new Date(n.getFullYear(), n.getMonth(), n.getDate());
+        }
+        function pad(n) { return String(n).padStart(2, '0'); }
+        function fmtDate(d) { return d.getFullYear() + '.' + pad(d.getMonth() + 1) + '.' + pad(d.getDate()); }
+        function fmtRange(start, end) {
+            const s = parseDate(start), e = parseDate(end);
+            return s.getFullYear() === e.getFullYear()
+                ? s.getFullYear() + '.' + pad(s.getMonth() + 1) + '.' + pad(s.getDate()) + ' - ' + pad(e.getMonth() + 1) + '.' + pad(e.getDate())
+                : fmtDate(s) + ' - ' + fmtDate(e);
+        }
+        function formatHours(v) {
+            const n = Number(v) || 0;
+            return Number.isInteger(n) ? String(n) : n.toFixed(1);
+        }
+        function countdownDays(examDateStr) {
+            const target = new Date(examDateStr + 'T00:00:00+08:00');
+            const diff = target.getTime() - Date.now();
+            return diff > 0 ? Math.ceil(diff / 86400000) : 0;
+        }
+        function esc(value) {
+            return String(value == null ? '' : value).replace(/[&<>"']/g, c => ({
+                '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;'
+            }[c]));
+        }
+
+        // ---------- 周状态 ----------
+        function currentWeekNumber(data) {
+            const found = data.weeks.find(w => parseDate(w.start) <= TODAY && TODAY <= parseDate(w.end));
+            if (found) return found.week;
+            if (TODAY < parseDate(data.weeks[0].start)) return data.weeks[0].week;
+            return data.weeks[data.weeks.length - 1].week;
+        }
+        function displayStatus(w) {
+            if (w.status === '已完成') return '已完成';
+            if (parseDate(w.end) < TODAY) return '待补';
+            if (w.status === '进行中') return '进行中';
+            return '未开始';
+        }
+        function weekClass(w, currentWeek) {
+            const st = displayStatus(w);
+            if (st === '已完成') return 'week-done';
+            if (st === '待补') return 'week-overdue';
+            if (w.week === currentWeek || st === '进行中') return 'week-active';
+            return 'week-future';
+        }
+        const STATUS_STYLE = {
+            '已完成': { bg: 'rgba(16,185,129,.12)', color: '#059669' },
+            '进行中': { bg: 'rgba(37,99,235,.12)', color: '#2563EB' },
+            '待补': { bg: 'rgba(245,158,11,.14)', color: '#B45309' },
+            '未开始': { bg: 'rgba(148,163,184,.16)', color: '#64748B' }
+        };
+
+        // ---------- 加载 ----------
+        async function loadPlan() {
+            try {
+                const res = await fetch(CONFIG.dataUrl, { cache: 'no-store' });
+                if (!res.ok) throw new Error('HTTP ' + res.status);
+                return await res.json();
+            } catch (err) {
+                console.warn('计划数据加载失败：', err);
+                document.getElementById('load-error').classList.remove('hidden');
+                return null;
+            }
+        }
+
+        // ---------- 渲染 ----------
+        function render(data) {
+            PLAN = data;
+            TODAY = todayLocal();
+            const weeks = data.weeks;
+            const totalWeeks = data.totalWeeks || weeks.length;
+            const currentWeek = currentWeekNumber(data);
+            const currentWeekData = weeks.find(w => w.week === currentWeek) || weeks[0];
+            const completed = weeks.filter(w => w.status === '已完成').length;
+            const totalHours = weeks.reduce((sum, w) => sum + (Number(w.hours) || 0), 0);
+            const stages = data.stages || [];
+            const currentStage = stages.find(s => s.id === currentWeekData.stage) || stages[0];
+
+            // 指标
+            document.getElementById('stat-week').textContent = currentWeek;
+            document.getElementById('stat-done').textContent = completed;
+            document.getElementById('stat-hours').textContent = formatHours(totalHours);
+            document.getElementById('stat-stage').textContent = currentStage ? '第' + currentStage.id + '阶段 · ' + currentStage.short : '--';
+
+            // 计划进度
+            const timePct = Math.round((currentWeek / totalWeeks) * 100);
+            const donePct = Math.round((completed / totalWeeks) * 100);
+            document.getElementById('time-progress-label').textContent = '第 ' + currentWeek + ' / ' + totalWeeks + ' 周 · ' + timePct + '%';
+            document.getElementById('done-progress-label').textContent = completed + ' / ' + totalWeeks + ' 周 · ' + donePct + '%';
+            document.getElementById('time-progress-bar').setAttribute('data-width', timePct);
+            document.getElementById('done-progress-bar').setAttribute('data-width', donePct);
+            document.getElementById('plan-range').textContent = '计划周期 ' + fmtRange(data.planStart, data.planEnd);
+
+            const expected = Math.max(0, currentWeek - 1);
+            const diff = completed - expected;
+            const badge = document.getElementById('pace-badge');
+            if (diff >= 0) {
+                badge.textContent = diff === 0 ? '与计划同步' : '领先 ' + diff + ' 周';
+                badge.style.background = 'rgba(16,185,129,.12)';
+                badge.style.color = '#059669';
+            } else {
+                badge.textContent = '落后 ' + Math.abs(diff) + ' 周';
+                badge.style.background = 'rgba(245,158,11,.14)';
+                badge.style.color = '#B45309';
+            }
+
+            let updatedText = '--';
+            if (data.updatedAt) {
+                const dt = new Date(data.updatedAt);
+                if (!isNaN(dt.getTime())) {
+                    updatedText = dt.getFullYear() + '-' + pad(dt.getMonth() + 1) + '-' + pad(dt.getDate()) + ' ' + pad(dt.getHours()) + ':' + pad(dt.getMinutes());
+                } else {
+                    updatedText = data.updatedAt;
+                }
+            }
+            document.getElementById('updated-at').textContent = updatedText;
+
+            // 当前阶段
+            if (currentStage) {
+                const stageWeeks = weeks.filter(w => w.stage === currentStage.id);
+                const stageDone = stageWeeks.filter(w => w.status === '已完成').length;
+                const stagePct = stageWeeks.length ? Math.round((stageDone / stageWeeks.length) * 100) : 0;
+                document.getElementById('current-stage-name').textContent = '第' + currentStage.id + '阶段 · ' + currentStage.short;
+                document.getElementById('current-stage-goal').textContent = currentStage.goal;
+                document.getElementById('current-stage-meta').textContent = stageDone + ' / ' + stageWeeks.length + ' 周 · ' + stagePct + '%';
+                const stageBar = document.getElementById('current-stage-bar');
+                stageBar.style.background = STAGE_COLORS[(currentStage.id - 1) % STAGE_COLORS.length];
+                stageBar.setAttribute('data-width', stagePct);
+            }
+
+            // 周热力图（按阶段分泳道）
+            const lanes = document.getElementById('heatmap-lanes');
+            lanes.innerHTML = stages.map(stage => {
+                const stageWeeks = weeks.filter(w => w.stage === stage.id);
+                const stageDone = stageWeeks.filter(w => w.status === '已完成').length;
+                const color = STAGE_COLORS[(stage.id - 1) % STAGE_COLORS.length];
+                const cells = stageWeeks.map(w => {
+                    const st = displayStatus(w);
+                    return `<button type="button" data-week="${w.week}" class="week-cell ${weekClass(w, currentWeek)}"
+                        title="第${w.week}周 · ${fmtRange(w.start, w.end)} · ${st}${w.hours ? ' · ' + formatHours(w.hours) + 'h' : ''}"
+                        aria-label="查看第 ${w.week} 周">${w.week}</button>`;
+                }).join('');
+                return `
+                    <div>
+                        <div class="flex items-center justify-between mb-2 gap-2">
+                            <div class="flex items-center gap-2 min-w-0">
+                                <span class="w-2.5 h-2.5 rounded-full flex-shrink-0" style="background:${color}"></span>
+                                <span class="text-sm font-semibold whitespace-nowrap">第${stage.id}阶段 · ${esc(stage.short)}</span>
+                                <span class="text-xs text-gray-400 whitespace-nowrap">第 ${stage.startWeek}-${stage.endWeek} 周</span>
+                            </div>
+                            <span class="text-xs text-gray-400 whitespace-nowrap">${stageDone}/${stageWeeks.length} 周</span>
+                        </div>
+                        <div class="flex gap-1.5 overflow-x-auto pb-1">${cells}</div>
+                    </div>`;
+            }).join('');
+
+            lanes.querySelectorAll('.week-cell').forEach(btn => {
+                btn.addEventListener('click', () => selectWeek(Number(btn.dataset.week)));
+            });
+
+            // 五阶段卡片
+            const stagesGrid = document.getElementById('stages-grid');
+            stagesGrid.innerHTML = stages.map(stage => {
+                const stageWeeks = weeks.filter(w => w.stage === stage.id);
+                const stageDone = stageWeeks.filter(w => w.status === '已完成').length;
+                const pct = stageWeeks.length ? Math.round((stageDone / stageWeeks.length) * 100) : 0;
+                const color = STAGE_COLORS[(stage.id - 1) % STAGE_COLORS.length];
+                const isCurrent = stage.id === currentStage.id;
+                return `
+                    <article class="bg-white rounded-2xl border border-gray-100 p-5 shadow-sm card-hover" ${isCurrent ? 'style="border-color:' + color + '66"' : ''}>
+                        <div class="flex items-center justify-between gap-2">
+                            <div class="flex items-center gap-2 min-w-0">
+                                <span class="w-2.5 h-2.5 rounded-full flex-shrink-0" style="background:${color}"></span>
+                                <span class="font-semibold text-sm">第${stage.id}阶段 · ${esc(stage.short)}</span>
+                            </div>
+                            ${isCurrent ? `<span class="text-[10px] font-semibold px-2 py-0.5 rounded-full" style="background:${color}1a;color:${color}">当前</span>` : ''}
+                        </div>
+                        <p class="text-xs text-gray-400 mt-1">第 ${stage.startWeek}-${stage.endWeek} 周 · ${fmtRange(stage.startDate, stage.endDate)}</p>
+                        <div class="h-2 rounded-full mt-3 overflow-hidden" style="background: rgba(148, 163, 184, 0.18);">
+                            <div class="progress-fill h-full rounded-full" data-width="${pct}" style="background:${color}"></div>
+                        </div>
+                        <div class="flex justify-between text-xs text-gray-400 mt-2">
+                            <span>${stageDone} / ${stageWeeks.length} 周</span>
+                            <span>${pct}%</span>
+                        </div>
+                        <p class="text-xs text-gray-500 mt-3 leading-relaxed clamp-2">${esc(stage.goal)}</p>
+                    </article>`;
+            }).join('');
+
+            // 关键节点
+            const milestones = data.milestones || [];
+            const milestonesEl = document.getElementById('milestones-list');
+            if (milestonesEl) {
+                milestonesEl.innerHTML =
+                    `<div class="absolute left-1.5 top-2 bottom-2 w-px" style="background: rgba(148,163,184,.35)"></div>` +
+                    milestones.map((m, i) => {
+                        const last = i === milestones.length - 1;
+                        const color = last ? '#EF4444' : '#2563EB';
+                        return `
+                            <div class="relative mb-5 last:mb-0">
+                                <span class="absolute -left-[19px] top-1 w-2.5 h-2.5 rounded-full" style="background:${color}"></span>
+                                <div class="text-xs text-gray-400">${esc(m.date)}</div>
+                                <div class="text-sm font-semibold mt-0.5">${esc(m.event)}</div>
+                                <p class="text-xs text-gray-500 mt-1 leading-relaxed">${esc(m.note)}</p>
+                            </div>`;
+                    }).join('');
+            }
+
+            // 默认选中当前周
+            selectWeek(currentWeek);
+
+            // 进度条动画
+            requestAnimationFrame(() => {
+                setTimeout(() => {
+                    document.querySelectorAll('.progress-fill').forEach(bar => {
+                        const w = bar.getAttribute('data-width');
+                        if (w !== null) bar.style.width = w + '%';
+                    });
+                }, 120);
+            });
+        }
+
+        function selectWeek(weekNum) {
+            if (!PLAN) return;
+            const w = PLAN.weeks.find(item => item.week === weekNum);
+            if (!w) return;
+            const stage = PLAN.stages.find(s => s.id === w.stage);
+            const status = displayStatus(w);
+            const style = STATUS_STYLE[status] || STATUS_STYLE['未开始'];
+            const color = STAGE_COLORS[(w.stage - 1) % STAGE_COLORS.length];
+
+            document.querySelectorAll('#heatmap-lanes .week-cell').forEach(cell => {
+                cell.classList.toggle('selected', Number(cell.dataset.week) === weekNum);
+            });
+
+            document.getElementById('detail-week-title').textContent = '第 ' + w.week + ' 周';
+            const statusEl = document.getElementById('detail-status');
+            statusEl.textContent = status;
+            statusEl.style.background = style.bg;
+            statusEl.style.color = style.color;
+            document.getElementById('detail-week-range').textContent =
+                fmtRange(w.start, w.end) + ' · 第' + w.stage + '阶段 · ' + (stage ? stage.short : '');
+            document.getElementById('detail-hours').textContent = '已投入 ' + formatHours(w.hours) + ' 小时';
+            document.getElementById('detail-daily').textContent = '建议 ' + (w.dailyHours || '--');
+            document.getElementById('detail-note').textContent = w.note ? '复盘：' + w.note : '这一周还没有写复盘备注。';
+
+            document.getElementById('detail-tasks').innerHTML = TASK_META.map(meta => {
+                const value = w.tasks ? w.tasks[meta.key] : '';
+                const paused = !value || value.indexOf('暂不启动') !== -1;
+                return `
+                    <div class="rounded-xl border border-gray-100 p-3" style="${paused ? 'opacity:.55' : ''}">
+                        <div class="flex items-center gap-2">
+                            <span class="text-[11px] font-semibold px-2 py-0.5 rounded-full" style="background:${meta.color}14;color:${meta.color}">${meta.label}</span>
+                            ${paused ? '<span class="text-[10px] text-gray-400">暂不启动</span>' : ''}
+                        </div>
+                        <p class="text-sm text-gray-600 mt-2 leading-relaxed">${esc(value || '本周暂无安排')}</p>
+                    </div>`;
+            }).join('');
+        }
+
+        // ---------- 交互 ----------
+        function initNav() {
+            const toggle = document.getElementById('menu-toggle');
+            const menu = document.getElementById('mobile-menu');
+            const navbar = document.getElementById('navbar');
+
+            // 菜单固定在导航栏下方，高度随滚动收缩而变化
+            const syncMenuPosition = () => {
+                if (!menu || menu.classList.contains('hidden')) return;
+                menu.style.top = Math.round(navbar.getBoundingClientRect().bottom + 10) + 'px';
+            };
+
+            if (toggle && menu) {
+                toggle.addEventListener('click', () => {
+                    menu.classList.toggle('hidden');
+                    syncMenuPosition();
+                });
+                document.querySelectorAll('.mobile-nav-link').forEach(link => {
+                    link.addEventListener('click', () => menu.classList.add('hidden'));
+                });
+                window.addEventListener('scroll', syncMenuPosition, { passive: true });
+                window.addEventListener('resize', syncMenuPosition);
+            }
+            const onScroll = () => navbar.classList.toggle('nav-scrolled', window.scrollY > 20);
+            window.addEventListener('scroll', onScroll, { passive: true });
+            onScroll();
+            document.querySelectorAll('.theme-toggle').forEach(btn => {
+                btn.addEventListener('click', () => {
+                    const isDark = document.documentElement.classList.toggle('dark');
+                    localStorage.setItem('theme', isDark ? 'dark' : 'light');
+                });
+            });
+        }
+
+        function updateCountdown(examDate) {
+            const days = countdownDays(examDate || '2027-12-18');
+            document.getElementById('days-to-exam').textContent = days;
+            document.getElementById('footer-countdown').textContent = days;
+        }
+
+        document.addEventListener('DOMContentLoaded', async () => {
+            initNav();
+            updateCountdown();
+            setInterval(updateCountdown, 60000);
+            const data = await loadPlan();
+            if (data) render(data);
+        });
+    </script>
+</body>
+</html>
