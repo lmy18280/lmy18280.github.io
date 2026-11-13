@@ -20,7 +20,7 @@ Pegasus像一头巨兽，电机如水花般悦耳。
 还有一周，Pegasus也完成使命了，我也算是真正退休了。
 下个赛季，祝好。
 
-[Gspeed Vela](/ExperiencesDisc/media/e01.jpg)
+![Gspeed Vela](/ExperiencesDisc/media/e01.jpg)
 
 
 # ---END---
